@@ -1,0 +1,259 @@
+<link rel="stylesheet" type="text/css" href="/css/homepage-tutor.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<script src="/js/extlibs/typed.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(window).scroll(function() {
+    if ($(document).scrollTop() > 100) {
+      $(".navbar-fixed-top").css("background-color", "#2d2e30");
+    } else {
+      $(".navbar-fixed-top").css("background-color", "transparent");
+    }
+  });
+  $("#typed").typed({
+    strings: ["compétences.", "astuces.", "connaissances."],
+    typeSpeed: 100
+  });
+});
+</script>
+<div id="headzone">
+  <nav class="navbar navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="/img/homepage-tutor/Super-paces-logo-blanc.png"/></a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse pull-right" ng-if="!user.name">
+            <a href="/#!/tutor-register">S'inscrire</a>
+            <a href="/#!/tutor-login">Se connecter</a>
+            <a href="/#!/tutor-register"><input type="button" class="btn btn-success becomeTutor" value="Devenir tuteur"/></a>
+          </div><!--/.navbar-collapse -->
+          <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
+            <a href="#">{{user.name}}</a>
+            <a href="http://177.10.0.11:1337/auth/logout">Se déconnecter</a>
+          </div>
+        </div>
+    </nav>
+
+    <div id="headzoneTitle">
+      <h1 class="text-center">Partagez vos <span id="typed"></span></h1>
+    </div>
+    <div id="headzoneSubtitle" class="col-md-12">
+      <div class="col-md-4 col-md-offset-2 text-center">
+        <h3><br/><br/><br/><br/><b>Prêt à participer à la réussite de vos élèves ?</b><br/><br/>
+            Inscrivez-vous gratuitement,<br/>
+            Super PACES se charge du reste.
+        </h3>
+      </div>
+      <div class="col-md-4" ng-if="!user.name">
+        <div class="col-md-6 col-md-offset-3 btnConnectZone">
+          <a href="{{apiBaseUrl}}/auth/facebook"><button class="btn btn-info facebookConnect"><i class="fa fa-facebook-official pull-left" aria-hidden="true"></i> Inscription avec Facebook</button></a>
+        </div>
+        <div class="col-md-6 col-md-offset-3 btnConnectZone">
+          <a href="{{apiBaseUrl}}/auth/twitter"><button class="btn btn-info twitterConnect"><i class="fa fa-twitter-square pull-left" aria-hidden="true"></i> Inscription avec Twitter</button></a>
+        </div>
+        <div class="col-md-6 col-md-offset-3 signupZone">
+          <p class="text-center" style="padding-top: 10px;">ou</p>
+          <form action="http://177.10.0.11:1337/auth/registerUser" method="post">
+            <input type="input" name="firstname" ng-model="firstname" class="form-control" placeholder="Prénom" required="Ce champs est requis" />
+            <input type="input" name="lastname" ng-model="lastname" class="form-control" placeholder="Nom" required="Ce champs est requis" />
+            <input type="email" name="email" ng-model="email" class="form-control" placeholder="Email" required="Ce champs est requis" />
+            <input type="password" name="password" ng-model="password" class="form-control" placeholder="Mot de passe" required="Ce champs est requis" />
+            <input type="submit" class="btn btn-success" value="S'inscrire">
+          </form>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+          <p class="text-center">Et rejoindre la communauté de tuteurs</p>
+        </div>
+      </div>
+      <div class="col-md-4" ng-if="user.name">
+        <div class="col-md-6 col-md-offset-3 btnConnectZone">
+          <input type="button" class="btn btn-success accessDashboard" value="Mon espace tuteur"/>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="whiteZone">
+  <h3 class="text-center">Devenez un(e) super tuteur(trice) !</h3>
+  <div id="carouselAdvantages" class="row-centered">
+    <div class="col-md-3 col-centered">
+      <p class="text-center"><img src="/img/homepage-tutor/checklist.svg" /></p>
+      <h4 class="text-center">Simple et flexible</h4>
+      <p class="text-center">
+        Définissez votre propre style d’enseignement.<br/>
+        Créez votre contenu unique à votre image<br/>
+        avec nos outils de création rapides et gratuits.
+      </p>
+    </div>
+    <div class="col-md-3 col-centered">
+      <p class="text-center"><img src="/img/homepage-tutor/teamwork.svg" /></p>
+      <h4 class="text-center">Partage</h4>
+      <p class="text-center">
+        Partagez votre savoir et vos connaissances<br/>
+        avec les étudiants en PACES.<br/>
+        Quoi de plus valorisant que de participer à la<br/>
+        réussite de vos élèves ?
+      </p>
+    </div>
+    <div class="col-md-3 col-centered">
+      <p class="text-center"><img src="/img/homepage-tutor/money.svg" /></p>
+      <h4 class="text-center">Revenus</h4>
+      <p class="text-center">
+        Bénéficiez d’un revenu complémentaire, dès<br/>
+        lors qu’un élève travaille sur votre support.<br/>
+        Vous fixez vos tarifs, et travaillez en direct<br/>
+        avec vos étudiants.
+      </p>
+    </div>
+  </div>
+  <div class="becomeTutorZone" ng-if="!user.name">
+    <p class="text-center"><input type="button" class="btn btn-success becomeTutor" value="Devenir tuteur"/></p>
+  </div>
+</div>
+<div class="greyZone row">
+  <h3 class="col-md-12 text-center">Super PACES, comment ça marche ?</h3>
+  <div class="col-md-12">
+    <div class="col-md-1 col-md-offset-3"><h4 class="numberCircle">1</h4></div>
+    <div class="col-md-4">
+      <h4>Je crée mon contenu original</h4>
+      <p class="text-justify"><br/>
+        Élaborez gratuitement votre contenu à votre rythme à l'aide d'outils de création de cours, faciles d'utilisation.<br/><br/>
+      </p>
+    </div>
+  </div>
+  <div  class="col-md-12">
+    <div class="col-md-1 col-md-offset-3"><h4 class="numberCircle">2</h4></div>
+    <div class="col-md-4">
+      <h4>J’enseigne à mon rythme selon mon emploi du temps</h4>
+      <p class="text-justify"><br/>Définissez votre propre style d'enseignement, innovez et expérimentez au cours du temps.<br/><br/>
+      </p>
+    </div>
+  </div>
+  <div  class="col-md-12">
+    <div class="col-md-1 col-md-offset-3"><h4 class="numberCircle">3</h4></div>
+    <div class="col-md-4">
+      <h4>Je suis rémunéré pour mon travail</h4>
+      <p class="text-justify"><br/>Super PACES fonctionne comme une market place. Nous servons d’intermédiaires entre les étudiants
+        en PACES et vous.<br/><br/>
+        Vous fixez ainsi le tarif de vos contenus, et gardez 60% du prix établi par vos soins, et ce, dès lors
+        qu’un étudiant achète votre support.<br/><br/>
+      </p>
+    </div>
+  </div>
+  <div class="becomeTutorZone" ng-if="!user.name">
+    <p class="text-center"><input type="button" class="btn btn-success becomeTutor" value="S'inscrire"/></p>
+  </div>
+</div>
+<div class="whiteZone row">
+  <h3 class="text-center col-md-12">Foire Aux Questions</h3>
+  <div  class="col-md-12">
+    <div class="col-md-4 col-md-offset-4">
+      <h4>À quoi ressemble un contenu Super PACES typique ?</h4>
+      <p class="text-justify"><br/>Actuellement, un contenu Super PACES typique est uniquement sous forme de QCM, comportant au minimum 20 QCM sur un ou plusieurs cours d’une même UE. Une colle classique en somme.
+        Plus votre colle est centrée sur un seul cours, meilleure est sa précision.<br/><br/>
+        Le principe de Super PACES est de s’entraîner sur des colles portant sur un cours précis de votre université.<br/>
+        Ainsi, après chaque cours, l’étudiant en PACES de votre université vient s’entraîner et vérifier son apprentissage sur votre colle. <br/><br/>
+        D’autres types de contenus viendront agrandir les possibilités d’apprentissage dans les mois à venir. <br/><br/>
+      </p>
+    </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Est-ce gratuit de créer et de déposer mon contenu ?</h4>
+        <p class="text-justify"><br/>Oui ! La création des colles est entièrement gratuite pour nos tuteurs, et il n’existe pas de frais de gestion. <br/><br/>
+        </p>
+      </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Combien de contenus puis-je poster ? </h4>
+        <p class="text-justify"><br/>Autant que vous le souhaitez.<br/>
+          Par exemple une colle sur chaque cours que vous maitrisez, de l’UE que vous voulez. Vous travaillez comme bon vous semble, selon votre emploi du temps et votre temps disponible. Vous n’avez aucune contrainte.<br/><br/>
+          Plus vos contenus sont appreciés, plus les élèves vous suivront et achèteront vos contenus. Plus vos gains augmenteront.<br/>
+          A contrario, si vos contenus sont mal notés et de mauvaise qualité, les élèves ne vous suivront plus, et vos contenus seront automatiquement supprimés de la plateforme. <br/><br/>
+        </p>
+      </div>
+  </div>
+
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Comment suis-je rémunéré ?</h4>
+        <p class="text-justify"><br/>Pour chaque élève qui achète votre colle vous gardez 60% de la vente.<br/>
+          Ainsi, plus votre colle est de qualité, avec des explications précises et nombreuses, plus elle se vendra, plus vos gains seront importants. C’est aussi simple que cela.<br/>
+          En contrepartie, Super PACES se charge du service clients, du traitement des règlements et des frais d’hébergement, et vous donne accès à l’ensemble des fonctionnalités de Super PACES, notamment la version mobile de vos cours, sans frais supplémentaires !<br/><br/>
+        </p>
+      </div>
+  </div>
+
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Comment choisir le prix de mon cours ? </h4>
+        <p class="text-justify"><br/>Vous définissez vous-même le tarif de vos cours en fonction d’une grille tarifaire prédéfinie par Super PACES, établie selon votre contenu, votre formation, votre expérience, de la concurrence et donc du marché dans votre secteur. <br/><br/>
+        </p>
+      </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Dois-je prouver que j’ai réussi le concours en PACES ?</h4>
+        <p class="text-justify"><br/>Oui. Nous mettons un point d’honneur sur la qualité des contenus postés par nos tuteurs et tutrices.<br/>
+          Aussi, afin de finaliser votre inscription et de pouvoir poster vos contenus, nous devrons vérifier que vous avez bel et bien réussi le concours.<br/>
+          Nous vous demanderons seulement de nous scanner ou prendre en photo votre relevé de note et votre certificat de scolarité de votre année actuelle. <br/><br/>
+        </p>
+      </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Suis-je indépendant vis-à-vis de Super PACES ?  </h4>
+        <p class="text-justify"><br/>Absolument ! Super PACES est une plateforme de partage, vous mettant en relation avec les étudiants en PACES. Nous ne sommes ni une prépa privée (ou écurie) ni le tutorat de l’université.<br/>
+          Nous sommes une plateforme complémentaire et indépendante.<br/>
+          Vous pouvez quitter Super PACES quand vous le souhaitez.<br/><br/>
+        </p>
+      </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4>Puis-je poster une colle réalisée par le tutorat / la prépa privée ?</h4>
+        <p class="text-justify"><br/>Absolument pas. Super PACES met un point d’honneur à l’originalité des supports mis à disposition des étudiants en PACES.<br/>
+          C’est pourquoi votre contenu doit être impérativement unique et non copié sur des supports déjà existants, que ce soit par le tutorat ou les prépas privées.<br/>
+          Tout travail n’étant pas 100% original et unique à Super PACES sera supprimé, et votre compte banni.<br/><br/>
+        </p>
+      </div>
+  </div>
+  <div  class="col-md-12">
+      <div class="col-md-4 col-md-offset-4">
+        <h4 class="text-center">Encore une question ?</h4>
+        <p class="text-center"><br/><a href="mailto:contact@superpaces.fr"><input type="button" class="btn btn-success" value="Contactez nous"/></a>
+        <br/><br/></p>
+      </div>
+  </div>
+</div>
+<div class="greyZone row" ng-if="!user.name">
+  <h3 class="col-md-12 text-center">Rejoignez dès maintenant la communauté !</h3>
+  <div class="col-md-2 col-md-offset-5 btnConnectZone">
+    <button class="btn btn-info facebookConnect"><i class="fa fa-facebook-official pull-left" aria-hidden="true"></i> Inscription avec Facebook</button>
+  </div>
+  <div class="col-md-2 col-md-offset-5 btnConnectZone">
+    <button class="btn btn-info twitterConnect"><i class="fa fa-twitter-square pull-left" aria-hidden="true"></i> Inscription avec Twitter</button>
+  </div>
+  <div class="col-md-2  col-md-offset-5 signupZone">
+  <p class="text-center" style="padding-top: 10px;">ou</p>
+  <form id="registerBottomForm" action="http://177.10.0.11:1337/auth/registerUser" method="post">
+    <input type="input" name="firstname" ng-model="firstname" class="form-control" placeholder="Prénom" required="Ce champs est requis" />
+    <input type="input" name="lastname" ng-model="lastname" class="form-control" placeholder="Nom" required="Ce champs est requis" />
+    <input type="email" name="email" ng-model="email" class="form-control" placeholder="Email" required="Ce champs est requis" />
+    <input type="password" name="password" ng-model="password" class="form-control" placeholder="Mot de passe" required="Ce champs est requis" />
+    <input type="submit" class="btn btn-success" value="S'inscrire">
+  </form>
+  <p><br/><br/></p>
+  </div>
+</div>
+
+<div class="darkZone row">
+  <p></p>
+</div>

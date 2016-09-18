@@ -1,0 +1,189 @@
+body {
+  font-family: 'Open Sans' !important;
+  letter-spacing: 1px !important;
+  overflow-x: hidden;
+}
+.typed-cursor {
+  opacity: 1;
+  -webkit-animation: blink 0.7s infinite;
+  -moz-animation: blink 0.7s infinite;
+  animation: blink 0.7s infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#headzone {
+  background: url('/img/homepage-tutor/BG-tuteurs.jpeg');
+  min-height: 800px;
+  width: 100%;
+}
+.navbar-inner {
+  background: transparent;
+}
+.navbar-brand {
+  height: 75px;
+}
+.navbar-brand img {
+  height: 100%;
+}
+#navbar {
+  padding-top: 20px;
+}
+.navbarConnected {
+  padding-top: 30px;
+}
+#navbar a,
+.navbarConnected a {
+  color: #ffffff;
+  padding: 20px;
+  margin-top: 20px;
+}
+.accessDashboard {
+  margin-top: 150px;
+}
+.btn-success {
+  background-color: #35c350;
+  background-image: linear-gradient(to bottom, #35c350 0, #35c350 100%);
+  font-weight: bold;
+}
+.btn-success:hover {
+  background-color: #3bcc53;
+  background-image: linear-gradient(to bottom, #35c350 0, #3bcc53 100%);
+}
+#headzoneTitle {
+  margin-top: 0px;
+  padding-top: 200px;
+  color: #ffffff;
+}
+#headzoneTitle h1 {
+  font-weight: bold;
+  font-size: 35pt;
+}
+#headzoneSubtitle {
+  color: #ffffff;
+  margin-top: 50px;
+}
+.whiteZone h3 {
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.row-centered {
+  text-align: center;
+}
+.col-centered {
+  display: inline-block;
+  float: none;
+  text-align: left;
+  margin-right: -4px;
+}
+#carouselAdvantages img {
+  height: 50px;
+}
+#carouselAdvantages div h4 {
+  font-weight: bold;
+}
+.becomeTutorZone {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.becomeTutorZone p .btn {
+  border-color: #ffffff;
+}
+.greyZone {
+  background-color: #f7f7f7;
+}
+.greyZone h3 {
+  font-weight: bold;
+  padding-top: 50px;
+  margin-bottom: 50px;
+}
+.greyZone h4,
+.whiteZone h4 {
+  font-weight: bold;
+}
+.numberCircle {
+  margin-top: 0px;
+  border-radius: 50%;
+  behavior: url(PIE.htc);
+  /* remove if you don't care about IE8 */
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: #f7f7f7;
+  border: 2px solid #35c350;
+  color: #35c350;
+  text-align: center;
+  display: inline-block;
+}
+.facebookConnect {
+  margin-top: 10px;
+  background-color: #24548a !important;
+  background-image: linear-gradient(to bottom, #24548a 0, #24548a 100%);
+  border-color: #24548a;
+  width: 100%;
+  box-shadow: 0 1px 0 #1f1f1;
+  font-weight: bold;
+}
+.facebookConnect:hover {
+  border-color: #24548a;
+}
+.btnConnectZone {
+  padding-top: 10px;
+}
+.facebookConnect i,
+.twitterConnect i {
+  font-size: 20px;
+}
+.twitterConnect {
+  background-color: #1b95e0 !important;
+  background-image: linear-gradient(to bottom, #1b95e0 0, #1b95e0 100%);
+  border-color: #1b95e0;
+  width: 100%;
+  box-shadow: 0 1px 0 #1f1f1;
+  font-weight: bold;
+}
+.twitterConnect:hover {
+  border-color: #1b95e0;
+}
+.signupZone input {
+  margin-bottom: 10px;
+  height: 40px;
+}
+.signupZone input[type="submit"] {
+  width: 100%;
+}
+.darkZone {
+  background-color: #2d2e30;
+  color: #ffffff;
+}

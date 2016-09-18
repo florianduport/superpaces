@@ -18,6 +18,10 @@
   "dependencies": {
     "angular": "^1.5.5",
     "angular-route": "^1.5.5",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "less": "^2.7.1",
+    "angular-resource": "^1.5.5",
+    "sails.io.js": "*",
+    "angular-sails": "*"
   }
 }

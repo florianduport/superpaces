@@ -1,0 +1,102 @@
+body {
+  font-family: 'Open Sans' !important;
+  letter-spacing: 1px !important;
+}
+#headzone {
+  background: url('/img/homepage-tutor/BG-tuteurs.jpeg');
+  min-height: 800px;
+  width: 100%;
+}
+.navbar-inner {
+  background: transparent;
+}
+.navbar-brand {
+  height: 75px;
+}
+.navbar-brand img {
+  height: 100%;
+}
+#navbar {
+  padding-top: 20px;
+}
+#navbar a {
+  color: #ffffff;
+  padding: 20px;
+  margin-top: 20px;
+}
+.btn-success {
+  background-color: #35c350;
+  background-image: linear-gradient(to bottom, #35c350 0, #35c350 100%);
+  font-weight: bold;
+}
+.btn-success:hover {
+  background-color: #3bcc53;
+  background-image: linear-gradient(to bottom, #35c350 0, #3bcc53 100%);
+}
+#headzoneTitle {
+  margin-top: 0px;
+  padding-top: 200px;
+  color: #ffffff;
+}
+#headzoneTitle h1 {
+  font-weight: bold;
+  font-size: 35pt;
+}
+#headzoneSubtitle {
+  color: #ffffff;
+  margin-top: 50px;
+}
+.whiteZone h3 {
+  font-weight: bold;
+  margin-top: 50px;
+}
+.row-centered {
+  text-align: center;
+}
+.col-centered {
+  display: inline-block;
+  float: none;
+  text-align: left;
+  margin-right: -4px;
+}
+#carouselAdvantages {
+  margin-top: 50px;
+}
+#carouselAdvantages img {
+  height: 50px;
+}
+#carouselAdvantages div h4 {
+  font-weight: bold;
+}
+.becomeTutorZone {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.becomeTutorZone p .btn {
+  border-color: #ffffff;
+}
+.greyZone {
+  background-color: #f7f7f7;
+}
+.greyZone h3 {
+  font-weight: bold;
+  padding-top: 50px;
+  margin-bottom: 25px;
+}
+.greyZone h4 {
+  font-weight: bold;
+}
+.numberCircle {
+  margin-top: 0px;
+  border-radius: 50%;
+  behavior: url(PIE.htc);
+  /* remove if you don't care about IE8 */
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: #fff;
+  border: 2px solid #35c350;
+  color: #35c350;
+  text-align: center;
+  display: inline-block;
+}

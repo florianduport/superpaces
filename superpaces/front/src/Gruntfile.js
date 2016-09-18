@@ -61,6 +61,12 @@ module.exports = function(grunt) {
     clean: {
       temp: {
         src: ['tmp']
+      },
+      less: {
+        src: ['dist/css/']
+      },
+      css: {
+        src: ['dist/css/']
       }
     },
 
@@ -74,10 +80,24 @@ module.exports = function(grunt) {
       }
     },
 
+    less: {
+      development: {
+        options: {
+          paths: ['dist/css']
+        },
+        expand: true,
+        cwd: './',
+        src: 'app/css/*.less',
+        dest: 'dist/css/',
+        ext: '.css',
+        flatten: true
+      }
+    },
+
     watch: {
       dev: {
-        files: ['Gruntfile.js', 'app/*.js', 'app/*.html'],
-        tasks: ['copy', 'html2js:dist', 'concat:dist', 'clean:temp'],
+        files: ['Gruntfile.js', 'app/*.js', 'app/*.html', 'app/js/templates/*.html', 'app/js/templates/pages/*.html', 'app/js/*.js', 'app/css/*.less'],
+        tasks: ['copy', 'html2js:dist', 'concat:dist', 'clean:temp', 'clean:less', 'less:development'],
         options: {
           atBegin: true
         }
@@ -121,8 +141,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
-  grunt.registerTask('dev', ['bower', 'copy', 'watch:dev']);
+  grunt.registerTask('dev', ['bower', 'copy', 'watch:dev', 'clean:less', 'less:development']);
   grunt.registerTask('prod', ['html2js:dist', 'concat:dist', 'uglify:dist',
     'clean:temp', 'compress:dist'
   ]);

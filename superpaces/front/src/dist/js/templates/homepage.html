@@ -1,0 +1,57 @@
+<div>
+  <div id="headernav" class="row">
+    <div class="col-md-12">
+      <div class="col-md-3">
+        <p><img src="http://i4.cdscdn.com/RWD/header/logo.png" alt="Achat discount" title="Achat discount" height="33" width="180"></p>
+      </div>
+      <div class="col-md-offset-6 col-md-3">
+        <a href="http://www.cdiscount.com">
+          <button class="btn btn-info">
+            < Retour au magasin
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <h2>
+        C mon catalogue !
+      </h2>
+      <br/>
+      <h4 class="text-justify">
+        Grâce à mes catalogues en ligne Cdiscount, je fais des économies toute l’année, je crée ma sélection de promotion et je profite de contenus exclusifs.
+      </h4>
+
+    </div>
+    <div class="col-md-9">
+      <div class="col-md-1 height300">
+        <i class="glyphicon glyphicon-chevron-left owl-carousel-arrow"></i>
+      </div>
+      <div class="col-md-10 height300">
+        <div class="owl-carousel owl-theme">
+
+          <div class="owl-carousel-item" ng-repeat="catalog in catalogs">
+              <a href="/#!/catalog/{{catalog.id}}"><img src="{{catalog.imagePreview}}"></a>
+            <div>
+              <br/>
+              <p class="text-center">Du {{catalog.validity.begin}} au {{catalog.validity.end}}</p>
+              <p class="text-center"><a href="/#!/catalog/{{catalog.id}}">Je consulte</a></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-1 height300">
+        <i class="glyphicon glyphicon-chevron-right owl-carousel-arrow"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.owl-carousel').owlCarousel();
+});
+</script>
