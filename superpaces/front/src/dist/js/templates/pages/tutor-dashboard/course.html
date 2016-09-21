@@ -1,0 +1,67 @@
+<link rel="stylesheet" type="text/css" href="/css/tutor-dashboard.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+
+<nav class="navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/#!/"><img src="/img/homepage-tutor/Super-paces-logo-blanc.png"/></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse pull-right" ng-if="!user.name">
+        <a href="/#!/tutor-register">S'inscrire</a>
+        <a href="/#!/tutor-login">Se connecter</a>
+        <a href="/#!/tutor-register"><input type="button" class="btn btn-success becomeTutor" value="Devenir tuteur"/></a>
+      </div><!--/.navbar-collapse -->
+      <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
+        <a href="#">Mes colles</a>
+        <a href="#">Mon compte</a>
+        <a href="http://177.10.0.11:1337/auth/logout">Se déconnecter</a>
+      </div>
+    </div>
+</nav>
+
+<div id="coursesContainer" class="col-md-8 col-md-offset-2">
+  <h1 ng-if="course.id">Editer une colle</h1>
+  <h1 ng-if="!course.id">Ajouter une colle</h1>
+
+  <form id="editCourseForm">
+    <input type="text" ng-model="course.title" name="title" class="form-control" placeholder="Titre de la colle" />
+    <input type="text" ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" />
+    <textarea ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea>
+    <select ng-model="course.category">
+      <option value="UE1">UE 1</option>
+      <option value="UE1">UE 2</option>
+      <option value="UE1">UE 3</option>
+      <option value="UE1">UE 4</option>
+      <option value="UE1">UE 5</option>
+      <option value="UE1">UE 6</option>
+      <option value="UE1">UE 7</option>
+    </select>
+    <div ng-repeat="item in course.items">
+      <input type="text" ng-model="item.title" name="itemtitle" class="form-control" placeholder="Titre de l'item" />
+      <input type="text" ng-model="item.comment" name="itemcomment" class="form-control" placeholder="Commentaire de correction de l'item" />
+      <div ng-repeat="question in item.questions">
+        <input type="text" ng-model="question.subject" name="questionsubject" class="form-control" placeholder="Enoncé de la question" />
+        <input type="text" ng-model="question.comment" name="questioncomment" class="form-control" placeholder="Correction de la question" />
+        <div ng-repeat="answer in question.answers">
+          <input type="text" ng-model="answer.subject" name="answersubject" class="form-control" placeholder="Enoncé de la réponse" />
+          <input type="text" ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction de la réponse" />
+          <input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control" placeholder="Est-ce la bonne réponse" />
+        </div>
+        <input type="button" class="addAnswer btn btn-default" ng-click="addAnswer(question)" value="Ajouter une réponse" />
+      </div>
+      <input type="button" class="addQuestion btn btn-default" ng-click="addQuestion(item)" value="Ajouter une question" />
+    </div>
+    <input type="button" class="addItem btn btn-default" ng-click="addItem()" value="Ajouter un item" />
+    <input type="text" ng-model="course.price" name="price" class="form-control" placeholder="Prix de la colle" />
+  </form>
+
+
+</div>

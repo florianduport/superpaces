@@ -23,7 +23,22 @@ superpacesApp.config(['$locationProvider', '$routeProvider',
           templateUrl: '/js/templates/pages/tutor-register.html',
           controller: 'superpacesTutorRegister'
         }).
-        otherwise('/phones');
+        when('/dashboard/create-course', {
+          templateUrl: '/js/templates/pages/tutor-dashboard/course.html',
+          controller: 'superpacesTutorCreateCourse'
+        }).
+        when('/dashboard/course/:id', {
+          templateUrl: '/js/templates/pages/tutor-dashboard/course.html',
+          controller: 'superpacesTutorEditCourse'
+        }).
+        when('/dashboard/', {
+          templateUrl: '/js/templates/pages/tutor-dashboard/courses.html',
+          controller: 'superpacesTutorCourses'
+        }).
+        otherwise('/404', {
+          templateUrl: '/js/templates/pages/404.html',
+          controller: 'superpacesHomepageTutor'
+        });
     }
   ]);
 
@@ -45,20 +60,6 @@ superpacesApp.controller('superpacesHomepageTutor', function ($scope, $sails, $s
     console.log(data);
   });
 
-  $scope.registerUser = function(firstname, lastname, email, password){
-    /*var user = {
-      provider: 'local',
-      firstname : firstname,
-      lastname : lastname,
-      name : firstname + ' ' + lastname,
-      email : email,
-      password : password
-    }
-    $sails.post("/auth/registerUser", {user : user}).success(function (data, status, headers, jwr) {
-      $location.path('/');
-    })*/
-  };
-
 });
 
 superpacesApp.controller('superpacesTutorLogin', function ($scope, $http, $sails, $location, $sce) {
@@ -70,12 +71,6 @@ superpacesApp.controller('superpacesTutorLogin', function ($scope, $http, $sails
       $location.path('/');
     }
   })
-
-  $scope.loginUser = function(username, password){
-    /*$http.post($scope.apiBaseUrl+"/auth/local", {username : username, password: password}).then(function (data, status, headers, jwr) {
-      console.log(data)
-    })*/
-  }
 });
 
 superpacesApp.controller('superpacesTutorRegister', function ($scope, $sails, $location, $sce) {
@@ -88,17 +83,148 @@ superpacesApp.controller('superpacesTutorRegister', function ($scope, $sails, $l
       $location.path('/');
     }
   });
-  $scope.registerUser = function(firstname, lastname, email, password){
-    /*var user = {
-      provider: 'local',
-      firstname : firstname,
-      lastname : lastname,
-      name : firstname + ' ' + lastname,
-      email : email,
-      password : password
-    }
-    $sails.post("/auth/registerUser", {user : user}).success(function (data, status, headers, jwr) {
+
+});
+
+superpacesApp.controller('superpacesTutorCourses', function ($scope, $sails, $location, $sce) {
+  $scope.apiBaseUrl = apiBaseUrl;
+  $sails.get("/auth/getUser")
+  .success(function (data, status, headers, jwr) {
+    $scope.user = data;
+    if($scope.user !== undefined && $scope.user.id !== undefined){
+
+      $sails.get("/course?tutor="+$scope.user.id)
+      .success(function (data, status, headers, jwr) {
+        //console.log(data);
+
+        $scope.courses = data;
+
+      });
+
+    } else {
       $location.path('/');
-    })*/
-  }
+    }
+  });
+});
+
+superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routeParams, $sails, $location, $sce) {
+
+  $scope.apiBaseUrl = apiBaseUrl;
+  $sails.get("/auth/getUser")
+  .success(function (data, status, headers, jwr) {
+    $scope.user = data;
+    if($scope.user !== undefined && $scope.user.id !== undefined){
+
+      $sails.get("/course?id="+$routeParams.id)
+      .success(function (data, status, headers, jwr) {
+        //console.log(data);
+
+        $scope.course = data;
+        $scope.course.tutor = $scope.user.id;
+        if(!$scope.course.category){
+          $scope.course.category = "UE1";
+        }
+        //$scope.title = $scope.course.title;
+
+        $scope.addItem = function(){
+          if(!$scope.course.items){
+            $scope.course.items = [];
+          }
+          $scope.course.items.push({
+            title : "Titre de l'item",
+            comment : "Commentaire de correction de l'item",
+            questions : []
+          });
+        };
+
+        $scope.addQuestion = function(item){
+
+          if(!item.questions){
+            item.questions = [];
+          }
+          item.questions.push({
+            subject : "Enoncé de la question",
+            comment : "Correction de la question",
+            answers : []
+          });
+        };
+
+        $scope.addAnswer = function(question){
+          console.log(question);
+          if(!question.answers){
+            question.answers = [];
+          }
+          question.answers.push({
+            subject: "Enoncé de la réponse",
+            isCorrect: false,
+            comment: "Correction de la réponse"
+          });
+        };
+
+
+
+      });
+
+    } else {
+      $location.path('/');
+    }
+  });
+});
+
+superpacesApp.controller('superpacesTutorCreateCourse', function ($scope, $sails, $location, $sce) {
+
+  $scope.apiBaseUrl = apiBaseUrl;
+  $sails.get("/auth/getUser")
+  .success(function (data, status, headers, jwr) {
+    $scope.user = data;
+    if($scope.user !== undefined && $scope.user.id !== undefined){
+
+      $scope.course = {
+        tutor : $scope.user.id,
+        category: "UE1"
+      };
+
+      $scope.addItem = function(){
+        if(!$scope.course.items){
+          $scope.course.items = [];
+        }
+        $scope.course.items.push({
+          title : "Titre de l'item",
+          comment : "Commentaire de correction de l'item",
+          questions : []
+        });
+      };
+
+      $scope.addQuestion = function(item){
+
+        if(!item.questions){
+          item.questions = [];
+        }
+        item.questions.push({
+          subject : "Enoncé de la question",
+          comment : "Correction de la question",
+          answers : []
+        });
+      };
+
+      $scope.addAnswer = function(question){
+        console.log(question);
+        if(!question.answers){
+          question.answers = [];
+        }
+        question.answers.push({
+          subject: "Enoncé de la réponse",
+          isCorrect: false,
+          comment: "Correction de la réponse"
+        });
+      };
+
+
+    } else {
+      $location.path('/');
+    }
+  });
+
+
+
 });
