@@ -28,40 +28,133 @@
 </nav>
 
 <div id="coursesContainer" class="col-md-8 col-md-offset-2">
-  <h1 ng-if="course.id">Editer une colle</h1>
+  <h1 ng-if="course.id" class="text-center">Editer une colle</h1>
   <h1 ng-if="!course.id">Ajouter une colle</h1>
 
-  <form id="editCourseForm">
-    <input type="text" ng-model="course.title" name="title" class="form-control" placeholder="Titre de la colle" />
-    <input type="text" ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" />
-    <textarea ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea>
-    <select ng-model="course.category">
-      <option value="UE1">UE 1</option>
-      <option value="UE1">UE 2</option>
-      <option value="UE1">UE 3</option>
-      <option value="UE1">UE 4</option>
-      <option value="UE1">UE 5</option>
-      <option value="UE1">UE 6</option>
-      <option value="UE1">UE 7</option>
-    </select>
-    <div ng-repeat="item in course.items">
-      <input type="text" ng-model="item.title" name="itemtitle" class="form-control" placeholder="Titre de l'item" />
-      <input type="text" ng-model="item.comment" name="itemcomment" class="form-control" placeholder="Commentaire de correction de l'item" />
-      <div ng-repeat="question in item.questions">
-        <input type="text" ng-model="question.subject" name="questionsubject" class="form-control" placeholder="Enoncé de la question" />
-        <input type="text" ng-model="question.comment" name="questioncomment" class="form-control" placeholder="Correction de la question" />
-        <div ng-repeat="answer in question.answers">
-          <input type="text" ng-model="answer.subject" name="answersubject" class="form-control" placeholder="Enoncé de la réponse" />
-          <input type="text" ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction de la réponse" />
-          <input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control" placeholder="Est-ce la bonne réponse" />
-        </div>
-        <input type="button" class="addAnswer btn btn-default" ng-click="addAnswer(question)" value="Ajouter une réponse" />
-      </div>
-      <input type="button" class="addQuestion btn btn-default" ng-click="addQuestion(item)" value="Ajouter une question" />
-    </div>
-    <input type="button" class="addItem btn btn-default" ng-click="addItem()" value="Ajouter un item" />
-    <input type="text" ng-model="course.price" name="price" class="form-control" placeholder="Prix de la colle" />
-  </form>
 
+    <form id="editCourseForm">
+
+      <!-- Description de la colle -->
+      <div class="col-md-3">
+        <h3>Informations de la colle</h3>
+        <p>Entrez les informations de la colle</p>
+      </div>
+      <div class="col-md-9 courseWhiteZone">
+
+        <label>Titre de la colle</label>
+        <input type="text" ng-model="course.title" name="title" class="form-control" placeholder="Ex : Biologie cellulaire et différenciation : Le cycle cellulaire" /><br/><br/>
+        <label>Sous-titre de la colle</label>
+        <input type="text" ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" /><br/><br/>
+        <label>Description de la colle</label>
+        <textarea ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea><br/><br/>
+        <label>UE de la colle</label><br/>
+        <select ng-model="course.category" class="form-control">
+          <option value="UE1">UE 1 : ATOMES – BIOMOLECULES – GENOME – BIOENERGETIQUE – METABOLISME</option>
+          <option value="UE1">UE 2 : LA CELLULE ET LES TISSUS</option>
+          <option value="UE1">UE 3.1 : ORGANISATION DES APPAREILS ET DES SYSTEMES : BASES PHYSIQUES DES METHODES D’EXPLORATION</option>
+          <option value="UE1">UE 3.2 : ORGANISATION DES APPAREILS ET DES SYSTEMES : ASPECTS FONCTIONNELS</option>
+          <option value="UE1">UE 4 : EVALUATION DES METHODES D’ANALYSES APPLIQUEES AUX SCIENCES DE LA VIE ET DE LA SANTE</option>
+          <option value="UE1">UE 5 : ORGANISATION DES APPAREILS ET SYSTEMES : ASPECTS MORPHOLOGIQUES ET FONCTIONNELS</option>
+          <option value="UE1">UE 6 : INITIATION A LA CONNAISSANCE DU MEDICAMENT</option>
+          <option value="UE1">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
+        </select><br/><br/>
+        <label>Miniature de la colle</label><br/>
+        <input type="file" class="form-control"/>
+
+      </div>
+
+      <div class="courseModulesZone">
+
+        <div class="col-md-3 qcmList">
+          <h3>Création du module</h3>
+          <p>Entrez les informations du module</p>
+        </div>
+        <div class="col-md-9 qcmList courseWhiteZone">
+          <label>Titre du module</label>
+          <input type="text" ng-model="module.title" name="moduletitle" class="form-control" placeholder='Titre du module : Ex : "Histologie humaine - Les épithéliums"' /><br/><br/>
+          <label>Correction du module</label>
+          <textarea ng-model="module.comment" name="modulecomment" class="form-control" placeholder="Commentaire du module : détaillez ici vos commentaires à propos de ce module"></textarea><br/>
+
+          <input type="button" class="addmodule btn btn-success" ng-click="addmodule()" value="Ajouter un module" /><br/><br/><br/>
+          <h4 class="text-center">Les QCM du module</h4><br/><br/>
+          <div>
+            <input type="text" ng-model="question.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
+            <textarea ng-model="question.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea><br/>
+
+            <div>
+              <div class="input-group">
+                <!-- TOOLTIP- -->
+                <div class="input-group-addon"><input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" /></div>
+                <input type="text" ng-model="answer.subject" name="answersubject" class="form-control greenCheckbox" placeholder="Enoncé de l'item du QCM" />
+              </div><br/>
+              <textarea ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
+            </div>
+            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(module)" value="Ajouter un QCM" /><br/><br/><br/>
+          </div>
+
+          <div class="qcmDoneZone">
+
+            <div ng-repeat="module in course.modules">
+
+              <div class="col-md-10">
+                <h4 class="text-center">{{module.title}}</h4>
+                <p class="text-center qcmDoneZoneComment">{{module.comment}}</p>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-info"><span class="fa fa-pencil"></span></button>
+                <button class="btn btn-warning"><span class="fa fa-trash-o"></span></button>
+              </div>
+              <br/><br/><br/><br/>
+              <div ng-repeat="question in module.questions">
+                <br/><br/>
+                <div class="col-md-10">
+                  <p>QCM X : {{testQcm.subject}}</p>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-info"><span class="fa fa-pencil"></span></button>
+                  <button class="btn btn-warning"><span class="fa fa-trash-o"></span></button>
+                </div>
+
+                <ul><br/> <br/>
+                  <li ng-repeat="answer in testQcm.answers">
+                    <span ng-if="answer.isCorrect" class="qcmDoneZoneCorrectAnswer">
+                      {{answer.subject}} <span class="fa fa-check"></span>
+                    </span>
+                    <span ng-if="!answer.isCorrect" class="">
+                      {{answer.subject}}
+                    </span>
+                    <p class="qcmDoneZoneComment">{{answer.comment}}</p>
+                  </li>
+                </ul>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-3 qcmList">
+        <h3>Prix de la colle</h3>
+        <p>Entrez les informations du module</p>
+      </div>
+      <div class="col-md-9 qcmList courseWhiteZone">
+        <label>Prix de la colle</label>
+        <select ng-model="course.category" class="form-control">
+          <option value="UE1">2,00 €</option>
+          <option value="UE1">3,00 €</option>
+          <option value="UE1">4,00 €</option>
+        </select>
+      </div>
+
+      <div class="col-md-3 qcmList">
+        <h3>Tout est prêt ?</h3>
+        <p>Entrez les informations du module</p>
+      </div>
+      <div class="col-md-9 qcmList courseWhiteZone">
+        <input type="button" class="btn btn-success saveCourse" value="Sauvegarder"/>
+      </div>
+    </form>
 
 </div>

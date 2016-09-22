@@ -96,3 +96,51 @@ body {
 #coursesContainer {
   margin-top: 76px;
 }
+.courseWhiteZone {
+  background: white;
+  border: 1px solid #EEE;
+  padding: 20px;
+}
+.input-group-addon {
+  padding-right: 30px!important;
+}
+.qcmList {
+  margin-top: 50px;
+}
+.answerCourseCorrect {
+  margin-left: -20px !important;
+  position: absolute!important;
+  margin-top: 0px!important;
+  width: 20px!important;
+  top: 0!important;
+  left: 33px!important;
+}
+.qcmDoneZone {
+  background: #EEE;
+  border-radius: 10px;
+  padding: 20px;
+}
+.qcmDoneZone span {
+  font-weight: bold;
+}
+.qcmDoneZoneCorrectAnswer {
+  color: #35c350;
+}
+.qcmDoneZoneComment {
+  font-style: italic;
+  font-weight: normal;
+}
+input[type="checkbox"].greenCheckbox + label {
+  color: #35c350;
+}
+.addmodule,
+.addQuestion,
+.saveCourse {
+  width: 100%;
+}
+.input-group-addon {
+  background: #35c350;
+}
+#coursesContainer h1 {
+  padding: 15px;
+}

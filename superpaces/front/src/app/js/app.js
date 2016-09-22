@@ -124,15 +124,17 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
         if(!$scope.course.category){
           $scope.course.category = "UE1";
         }
+
+        $scope.testQcm = $scope.course.modules[0].questions[0];
         //$scope.title = $scope.course.title;
 
         $scope.addItem = function(){
-          if(!$scope.course.items){
-            $scope.course.items = [];
+          if(!$scope.course.modules){
+            $scope.course.modules = [];
           }
-          $scope.course.items.push({
-            title : "Titre de l'item",
-            comment : "Commentaire de correction de l'item",
+          $scope.course.modules.push({
+            title : "Titre du module",
+            comment : "Commentaire de correction du module",
             questions : []
           });
         };
@@ -143,8 +145,8 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
             item.questions = [];
           }
           item.questions.push({
-            subject : "Enoncé de la question",
-            comment : "Correction de la question",
+            subject : "Enoncé du QCM",
+            comment : "Correction du QCM",
             answers : []
           });
         };
@@ -155,9 +157,9 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
             question.answers = [];
           }
           question.answers.push({
-            subject: "Enoncé de la réponse",
+            subject: "Enoncé de l'item",
             isCorrect: false,
-            comment: "Correction de la réponse"
+            comment: "Correction de l'item"
           });
         };
 
@@ -185,12 +187,12 @@ superpacesApp.controller('superpacesTutorCreateCourse', function ($scope, $sails
       };
 
       $scope.addItem = function(){
-        if(!$scope.course.items){
-          $scope.course.items = [];
+        if(!$scope.course.modules){
+          $scope.course.modules = [];
         }
-        $scope.course.items.push({
-          title : "Titre de l'item",
-          comment : "Commentaire de correction de l'item",
+        $scope.course.modules.push({
+          title : "Titre du module",
+          comment : "Commentaire de correction du module",
           questions : []
         });
       };
@@ -201,8 +203,8 @@ superpacesApp.controller('superpacesTutorCreateCourse', function ($scope, $sails
           item.questions = [];
         }
         item.questions.push({
-          subject : "Enoncé de la question",
-          comment : "Correction de la question",
+          subject : "Enoncé du QCM",
+          comment : "Correction du QCM",
           answers : []
         });
       };
@@ -213,9 +215,9 @@ superpacesApp.controller('superpacesTutorCreateCourse', function ($scope, $sails
           question.answers = [];
         }
         question.answers.push({
-          subject: "Enoncé de la réponse",
+          subject: "Enoncé de l'item",
           isCorrect: false,
-          comment: "Correction de la réponse"
+          comment: "Correction de l'item"
         });
       };
 
