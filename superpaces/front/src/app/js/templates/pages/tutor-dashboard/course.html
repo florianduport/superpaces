@@ -1,7 +1,16 @@
 <link rel="stylesheet" type="text/css" href="/css/tutor-dashboard.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("input[name=answersubject]").keypress(function(){
+      console.log('keypress')
+      if($(this).val().length > 0){
+        angular.element('#superpacesTutorEditCourse').scope().addAnswer();
+      }
+    })
+  })
+</script>
 
 <nav class="navbar navbar-fixed-top">
     <div class="container">
@@ -71,17 +80,17 @@
         </div>
         <div class="col-md-9 qcmList courseWhiteZone">
           <label>Titre du module</label>
-          <input type="text" ng-model="module.title" name="moduletitle" class="form-control" placeholder='Titre du module : Ex : "Histologie humaine - Les épithéliums"' /><br/><br/>
+          <input type="text" ng-model="newModule.title" name="moduletitle" class="form-control" placeholder='Titre du module : Ex : "Histologie humaine - Les épithéliums"' /><br/><br/>
           <label>Correction du module</label>
-          <textarea ng-model="module.comment" name="modulecomment" class="form-control" placeholder="Commentaire du module : détaillez ici vos commentaires à propos de ce module"></textarea><br/>
+          <textarea ng-model="newModule.comment" name="modulecomment" class="form-control" placeholder="Commentaire du module : détaillez ici vos commentaires à propos de ce module"></textarea><br/>
 
-          <input type="button" class="addmodule btn btn-success" ng-click="addmodule()" value="Ajouter un module" /><br/><br/><br/>
+          <input type="button" class="addmodule btn btn-success" ng-click="addModule()" value="Ajouter un module" /><br/><br/><br/>
           <h4 class="text-center">Les QCM du module</h4><br/><br/>
           <div>
-            <input type="text" ng-model="question.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
-            <textarea ng-model="question.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea><br/>
+            <input type="text" ng-model="newQcm.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
+            <textarea ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea><br/>
 
-            <div>
+            <div ng-repeat="answer in newQcm.answers">
               <div class="input-group">
                 <!-- TOOLTIP- -->
                 <div class="input-group-addon"><input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" /></div>
@@ -89,7 +98,7 @@
               </div><br/>
               <textarea ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
             </div>
-            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(module)" value="Ajouter un QCM" /><br/><br/><br/>
+            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion()" value="Ajouter un QCM" /><br/><br/><br/>
           </div>
 
           <div class="qcmDoneZone">
@@ -102,21 +111,21 @@
               </div>
               <div class="col-md-2">
                 <button class="btn btn-info"><span class="fa fa-pencil"></span></button>
-                <button class="btn btn-warning"><span class="fa fa-trash-o"></span></button>
+                <button class="btn btn-warning"  ng-click="removeModule(module)"><span class="fa fa-trash-o"></span></button>
               </div>
               <br/><br/><br/><br/>
               <div ng-repeat="question in module.questions">
                 <br/><br/>
                 <div class="col-md-10">
-                  <p>QCM X : {{testQcm.subject}}</p>
+                  <p>QCM X : {{question.subject}}</p>
                 </div>
                 <div class="col-md-2">
-                  <button class="btn btn-info"><span class="fa fa-pencil"></span></button>
-                  <button class="btn btn-warning"><span class="fa fa-trash-o"></span></button>
+                  <button class="btn btn-info" ><span class="fa fa-pencil"></span></button>
+                  <button class="btn btn-warning" ng-click="removeQcm(question)"><span class="fa fa-trash-o"></span></button>
                 </div>
 
                 <ul><br/> <br/>
-                  <li ng-repeat="answer in testQcm.answers">
+                  <li ng-repeat="answer in question.answers">
                     <span ng-if="answer.isCorrect" class="qcmDoneZoneCorrectAnswer">
                       {{answer.subject}} <span class="fa fa-check"></span>
                     </span>

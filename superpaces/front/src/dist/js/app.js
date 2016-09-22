@@ -128,42 +128,87 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
         $scope.testQcm = $scope.course.modules[0].questions[0];
         //$scope.title = $scope.course.title;
 
-        $scope.addItem = function(){
+        $scope.newModule = {
+          title : "",
+          comment : "",
+          questions : []
+        }
+        $scope.newQcm = {
+          subject : "",
+          comment : "",
+          answers : [{
+            subject: "",
+            isCorrect: false,
+            comment: ""
+          }]
+        }
+
+        $scope.addModule = function(){
           if(!$scope.course.modules){
             $scope.course.modules = [];
           }
-          $scope.course.modules.push({
-            title : "Titre du module",
-            comment : "Commentaire de correction du module",
+          $scope.course.modules.push($scope.newModule);
+          $scope.newModule = {
+            title : "",
+            comment : "",
             questions : []
-          });
+          };
         };
 
-        $scope.addQuestion = function(item){
+        $scope.addQuestion = function(){
 
-          if(!item.questions){
-            item.questions = [];
+          if(!$scope.course.modules[$scope.course.modules.length-1].questions){
+            $scope.course.modules[$scope.course.modules.length-1].questions = [];
           }
-          item.questions.push({
-            subject : "Enoncé du QCM",
-            comment : "Correction du QCM",
-            answers : []
-          });
+          $scope.course.modules[$scope.course.modules.length-1].questions.push($scope.newQcm);
+
+          console.log($scope.course.modules[$scope.course.modules.length-1].questions);
+          $scope.newQcm = {
+            subject : "",
+            comment : "",
+            answers : [
+              {
+                subject: "",
+                isCorrect: false,
+                comment: ""
+              }
+            ]
+          }
         };
 
-        $scope.addAnswer = function(question){
-          console.log(question);
-          if(!question.answers){
-            question.answers = [];
+        $scope.addAnswer = function(){
+          console.log(ok)
+          if(!$scope.newQcm.answers){
+            $scope.newQcm.answers = [];
           }
-          question.answers.push({
-            subject: "Enoncé de l'item",
+          $scope.newQcm.answers.push({
+            subject: "",
             isCorrect: false,
-            comment: "Correction de l'item"
+            comment: ""
           });
         };
 
+        $scope.removeQcm = function(question){
+          for (var i = 0; i < $scope.course.modules.length; i++) {
+            if($scope.course.modules[i].questions.indexOf(question) > -1)
+              $scope.course.modules[i].questions.splice($scope.course.modules[i].questions.indexOf(question), 1);
+          }
+        }
 
+        $scope.removeModule = function(moduleToDelete){
+          if($scope.course.modules.indexOf(moduleToDelete) > -1){
+              $scope.course.modules.splice($scope.course.modules.indexOf(moduleToDelete), 1);
+          }
+        }
+
+        var watch = $scope.$watch($scope.newQcm, function(){
+          console.log('watch')
+          if($scope.newQcm.answers[$scope.newQcm.answers.length -1].subject.length > 3){
+            $scope.addAnswer();
+          } else {
+            watch();
+          }
+        }, true);
 
       });
 
