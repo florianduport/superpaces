@@ -2,14 +2,9 @@
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <script type="text/javascript">
-  $(document).ready(function(){
-    $("input[name=answersubject]").keypress(function(){
-      console.log('keypress')
-      if($(this).val().length > 0){
-        angular.element('#superpacesTutorEditCourse').scope().addAnswer();
-      }
-    })
-  })
+
+
+
 </script>
 
 <nav class="navbar navbar-fixed-top">
@@ -88,16 +83,18 @@
           <h4 class="text-center">Les QCM du module</h4><br/><br/>
           <div>
             <input type="text" ng-model="newQcm.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
-            <textarea ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea><br/>
+            <textarea ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea>
 
-            <div ng-repeat="answer in newQcm.answers">
-              <div class="input-group">
+            <div ng-repeat="answer in newQcm.answers"><br/>
+              <div class="input-group col-md-11 col-md-offset-1">
                 <!-- TOOLTIP- -->
                 <div class="input-group-addon"><input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" /></div>
-                <input type="text" ng-model="answer.subject" name="answersubject" class="form-control greenCheckbox" placeholder="Enoncé de l'item du QCM" />
+                <input type="text" ng-model="answer.subject" name="answersubject" class="form-control greenCheckbox answersubject" placeholder="Enoncé de l'item du QCM" />
               </div><br/>
-              <textarea ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
-            </div>
+              <div class="input-group col-md-11 col-md-offset-1">
+                <textarea ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
+              </div>
+            </div><br/>
             <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion()" value="Ajouter un QCM" /><br/><br/><br/>
           </div>
 
@@ -105,22 +102,22 @@
 
             <div ng-repeat="module in course.modules">
 
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <h4 class="text-center">{{module.title}}</h4>
                 <p class="text-center qcmDoneZoneComment">{{module.comment}}</p>
               </div>
-              <div class="col-md-2">
-                <button class="btn btn-info"><span class="fa fa-pencil"></span></button>
+              <div class="col-md-3">
                 <button class="btn btn-warning"  ng-click="removeModule(module)"><span class="fa fa-trash-o"></span></button>
               </div>
               <br/><br/><br/><br/>
               <div ng-repeat="question in module.questions">
                 <br/><br/>
-                <div class="col-md-10">
+                <div class="col-md-9">
                   <p>QCM X : {{question.subject}}</p>
                 </div>
-                <div class="col-md-2">
-                  <button class="btn btn-info" ><span class="fa fa-pencil"></span></button>
+                <div class="col-md-3">
+                  <button class="btn btn-info" ng-click="moveQcm(question, true)"><span class="fa fa-arrow-up"></span></button>
+                  <button class="btn btn-info" ng-click="moveQcm(question, false)"><span class="fa fa-arrow-down"></span></button>
                   <button class="btn btn-warning" ng-click="removeQcm(question)"><span class="fa fa-trash-o"></span></button>
                 </div>
 

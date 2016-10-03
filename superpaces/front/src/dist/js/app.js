@@ -177,7 +177,7 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
         };
 
         $scope.addAnswer = function(){
-          console.log(ok)
+          console.log('ok')
           if(!$scope.newQcm.answers){
             $scope.newQcm.answers = [];
           }
@@ -188,10 +188,31 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
           });
         };
 
+        $scope.removeLastAnswer = function(){
+          if($scope.newQcm.answers !== undefined && $scope.newQcm.answers.length > 0){
+            $scope.newQcm.answers = $scope.newQcm.answers.slice(0, -1);
+          }
+        }
+
         $scope.removeQcm = function(question){
           for (var i = 0; i < $scope.course.modules.length; i++) {
             if($scope.course.modules[i].questions.indexOf(question) > -1)
               $scope.course.modules[i].questions.splice($scope.course.modules[i].questions.indexOf(question), 1);
+          }
+        }
+
+        $scope.moveQcm = function(question, isUp){
+          for (var i = 0; i < $scope.course.modules.length; i++) {
+            if($scope.course.modules[i].questions.indexOf(question) > -1){
+              var questionIndex = $scope.course.modules[i].questions.indexOf(question);
+              var newIndex = isUp ? (questionIndex - 1 > 0 ? questionIndex - 1 : 0) : (questionIndex + 1 > $scope.course.modules[i].questions.length - 1 ?  $scope.course.modules[i].questions.length - 1 : questionIndex + 1)
+              var movedElement1 = $scope.course.modules[i].questions[questionIndex];
+              var movedElement2 = $scope.course.modules[i].questions[newIndex];
+
+              $scope.course.modules[i].questions[questionIndex] = movedElement2;
+              $scope.course.modules[i].questions[newIndex] = movedElement1;
+            }
+
           }
         }
 
@@ -200,14 +221,31 @@ superpacesApp.controller('superpacesTutorEditCourse', function ($scope, $routePa
               $scope.course.modules.splice($scope.course.modules.indexOf(moduleToDelete), 1);
           }
         }
-
+        var xTriggered = 0;
         var watch = $scope.$watch($scope.newQcm, function(){
           console.log('watch')
-          if($scope.newQcm.answers[$scope.newQcm.answers.length -1].subject.length > 3){
+          /*if($scope.newQcm.answers[$scope.newQcm.answers.length -1].subject.length > 3){
             $scope.addAnswer();
           } else {
             watch();
-          }
+          }*/
+
+          jQuery("body").delegate(".answersubject", "keydown", function(event) {
+            var currentElement = jQuery(this);
+            console.log(currentElement)
+            console.log($($(".answersubject")[$(".answersubject").length-1]))
+            console.log($($(".answersubject")[$(".answersubject").length-1])[0] == currentElement[0])
+            if($($(".answersubject")[$(".answersubject").length-1])[0] == currentElement[0]){
+              if(currentElement.val().length > 3){
+                $scope.addAnswer();
+              }
+              else if(currentElement.val().length == -1){
+                $scope.removeLastAnswer();
+              }
+            }
+
+          });
+
         }, true);
 
       });
