@@ -21,7 +21,7 @@ module.exports = {
   getUser: function(req, res){
 
     if(req.session.passport !== undefined){
-      User.findOne({id : req.session.passport.user}).exec(function(err, user){
+      User.findOne({id : req.session.passport.user}).populate('courses').exec(function(err, user){
 
         if(err){
           res.send(false);

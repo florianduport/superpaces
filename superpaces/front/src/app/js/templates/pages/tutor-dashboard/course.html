@@ -83,19 +83,20 @@
           <h4 class="text-center">Les QCM du module</h4><br/><br/>
           <div>
             <input type="text" ng-model="newQcm.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
+          
             <textarea ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea>
 
             <div ng-repeat="answer in newQcm.answers"><br/>
               <div class="input-group col-md-11 col-md-offset-1">
                 <!-- TOOLTIP- -->
                 <div class="input-group-addon"><input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" /></div>
-                <input type="text" ng-model="answer.subject" name="answersubject" class="form-control greenCheckbox answersubject" placeholder="Enoncé de l'item du QCM" />
+                <input type="text" ng-model="answer.subject" ng-change="answerChange(answer,$index)" name="answersubject" class="form-control greenCheckbox answersubject" placeholder="Enoncé de l'item du QCM" />
               </div><br/>
               <div class="input-group col-md-11 col-md-offset-1">
-                <textarea ng-model="answer.comment" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
+                <textarea ng-model="answer.comment" ng-change="answerChange(answer,$index)" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
               </div>
             </div><br/>
-            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion()" value="Ajouter un QCM" /><br/><br/><br/>
+            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(newQcm)" value="Ajouter un QCM" /><br/><br/><br/>
           </div>
 
           <div class="qcmDoneZone">
@@ -149,8 +150,8 @@
         <label>Prix de la colle</label>
         <select ng-model="course.category" class="form-control">
           <option value="UE1">2,00 €</option>
-          <option value="UE1">3,00 €</option>
-          <option value="UE1">4,00 €</option>
+          <option value="UE2">3,00 €</option>
+          <option value="UE3">4,00 €</option>
         </select>
       </div>
 
@@ -159,7 +160,7 @@
         <p>Entrez les informations du module</p>
       </div>
       <div class="col-md-9 qcmList courseWhiteZone">
-        <input type="button" class="btn btn-success saveCourse" value="Sauvegarder"/>
+        <input type="button" class="btn btn-success saveCourse" value="Sauvegarder" ng-click="addCourse()"/>
       </div>
     </form>
 
