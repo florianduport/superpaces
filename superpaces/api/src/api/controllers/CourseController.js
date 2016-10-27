@@ -22,14 +22,16 @@ module.exports = {
 		Course.create({
 			title: req.param('title'),
 			subtitle: req.param('subtitle'),
-			description : req.param('description'),
-			category : req.param('category'),
-			tutor : req.param('tutor')
+			description: req.param('description'),
+			category: req.param('category'),
+			tutor: req.param('tutor'),
+			modules: req.param('modules')
 		}).exec(function(err, course) {
 			if (err)
 				return res.serverError(err);
 
-			res.send(course.toJSON());
+			res.send(course);
 		});
 	}
+
 };

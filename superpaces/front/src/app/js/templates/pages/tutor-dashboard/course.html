@@ -54,13 +54,13 @@
         <label>UE de la colle</label><br/>
         <select ng-model="course.category" class="form-control">
           <option value="UE1">UE 1 : ATOMES – BIOMOLECULES – GENOME – BIOENERGETIQUE – METABOLISME</option>
-          <option value="UE1">UE 2 : LA CELLULE ET LES TISSUS</option>
-          <option value="UE1">UE 3.1 : ORGANISATION DES APPAREILS ET DES SYSTEMES : BASES PHYSIQUES DES METHODES D’EXPLORATION</option>
-          <option value="UE1">UE 3.2 : ORGANISATION DES APPAREILS ET DES SYSTEMES : ASPECTS FONCTIONNELS</option>
-          <option value="UE1">UE 4 : EVALUATION DES METHODES D’ANALYSES APPLIQUEES AUX SCIENCES DE LA VIE ET DE LA SANTE</option>
-          <option value="UE1">UE 5 : ORGANISATION DES APPAREILS ET SYSTEMES : ASPECTS MORPHOLOGIQUES ET FONCTIONNELS</option>
-          <option value="UE1">UE 6 : INITIATION A LA CONNAISSANCE DU MEDICAMENT</option>
-          <option value="UE1">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
+          <option value="UE2">UE 2 : LA CELLULE ET LES TISSUS</option>
+          <option value="UE31">UE 3.1 : ORGANISATION DES APPAREILS ET DES SYSTEMES : BASES PHYSIQUES DES METHODES D’EXPLORATION</option>
+          <option value="UE32">UE 3.2 : ORGANISATION DES APPAREILS ET DES SYSTEMES : ASPECTS FONCTIONNELS</option>
+          <option value="UE4">UE 4 : EVALUATION DES METHODES D’ANALYSES APPLIQUEES AUX SCIENCES DE LA VIE ET DE LA SANTE</option>
+          <option value="UE5">UE 5 : ORGANISATION DES APPAREILS ET SYSTEMES : ASPECTS MORPHOLOGIQUES ET FONCTIONNELS</option>
+          <option value="UE6">UE 6 : INITIATION A LA CONNAISSANCE DU MEDICAMENT</option>
+          <option value="UE7">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
         </select><br/><br/>
         <label>Miniature de la colle</label><br/>
         <input type="file" class="form-control"/>
@@ -96,7 +96,7 @@
                 <textarea ng-model="answer.comment" ng-change="answerChange(answer,$index)" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
               </div>
             </div><br/>
-            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(newQcm)" value="Ajouter un QCM" /><br/><br/><br/>
+            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(course.modules[course.modules.length - 1])" value="Ajouter un QCM" /><br/><br/><br/>
           </div>
 
           <div class="qcmDoneZone">

@@ -258,141 +258,115 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
   $scope.apiBaseUrl = apiBaseUrl;
   $sails.get("/auth/getUser")
     .success(function(data, status, headers, jwr) {
-      $scope.user = data;
-      if ($scope.user !== undefined && $scope.user.id !== undefined) {
+      $scope.CurrentUser = data;
+      if ($scope.CurrentUser !== undefined && $scope.CurrentUser.id !== undefined) {
 
         $scope.course = {
-          tutor: $scope.user.id,
-          category: "UE1",
-          id: ""
+          tutor: $scope.CurrentUser.id,
+          category: "UE2"
         };
 
         $scope.newQcm = {
           subject: "",
           comment: "",
           answers: [{
-            subject: "",
             isCorrect: false,
+            subject: "",
             comment: ""
           }]
-        }
-
-        $scope.answer = {
-          subject: "",
-          comment: "",
-          isCorrect: ""
-        }
+        };
 
         $scope.addModule = function() {
           if (!$scope.course.modules) {
             $scope.course.modules = [];
           }
+
+          if (!$scope.newModule.questions) {
+            $scope.newModule.questions = [];
+          }
+
+          $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
+
+          if ($scope.newQcm.subject != "" && $scope.newQcm.comment != "")
+            $scope.newModule.questions.push($scope.newQcm);
+
           $scope.course.modules.push($scope.newModule);
           $scope.newModule = {
             title: "",
-            comment: "",
-            questions: []
+            comment: ""
           };
-        };
 
-        $scope.addItem = function() {
-          if (!$scope.course.modules) {
-            $scope.course.modules = [];
-          }
-          $scope.course.modules.push({
-            title: "Titre du module",
-            comment: "Commentaire de correction du module",
-            questions: []
-          });
-        };
-
-        //Saves the course and its modules in the database
-        //TODO : Save the QCMs
-        $scope.addCourse = function() {
-
-          $sails.post('/course/create', {
-            title: $scope.course.title,
-            subtitle: $scope.course.subtitle,
-            description: $scope.course.description,
-            category: $scope.course.category,
-            tutor: $scope.course.tutor
-          }).success(function(response) {
-            $scope.course.id = response.id;
-            console.log("course added");
-
-            if (!$scope.course.modules) {
-              console.log("no module for this course");
-            } else {
-              angular.forEach($scope.course.modules, function(value, key) {
-                $sails.post('/module/create', {
-                  title: value.title,
-                  comment: value.comment,
-                  course: $scope.course.id
-                }).success(function(response) {
-                  //module added
-                  console.log("module added");
-                });
-              });
-            }
-
-            $scope.course = {
-              title: "",
-              subtitle: "",
-              description: "",
-              modules: []
-            }
-            //$window.alert("Félicitations ! La colle a bien été créee.");
-          });
-        }
-
-        //Adds an empty answer whenever user starts typing / Removes an answer when it's empty
-        $scope.answerEdited = [false];
-        $scope.answerChange = function(item,id) {
-          if(item.comment.length > 1 || item.subject.length > 1){
-            $scope.answerEdited[id] = true;
-          }
-            if (!$scope.answerEdited[id] && (item.comment.length == 1 || item.subject.length == 1)) {
-            $scope.newQcm.answers.push({
+          $scope.newQcm = {
+            subject: "",
+            comment: "",
+            answers: [{
+              isCorrect: false,
               subject: "",
-              comment: "",
-              isCorrect: ""
-            });
-          }
+              comment: ""
+            }]
+          };
 
-          if(item.comment.length == 0 && item.subject.length == 0){
-            $scope.newQcm.answers.splice(id,1);
-            $scope.answerEdited[id] = false;
-          }
-        }
+          $scope.answerEdited = [false];
+        };
+
 
         $scope.addQuestion = function(item) {
 
           if (!item.questions) {
             item.questions = [];
           }
-          item.questions.push({
-            subject: item.subject,
-            comment: item.comment,
-            answers: {
+
+          $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
+
+          item.questions.push($scope.newQcm);
+
+          $scope.newQcm = {
+            subject: "",
+            comment: "",
+            answers: [{
+              isCorrect: false,
               subject: "",
-              comment: "",
-              isCorrect: ""
+              comment: ""
+            }]
+          };
+          $scope.answerEdited = [false];
+        };
+
+        //Saves the course and its modules in the database
+        //TODO : Save the QCMs
+        $scope.addCourse = function() {
+
+          $sails.post('/course/create', JSON.parse(angular.toJson($scope.course)))
+          .success(function(response) {
+            console.log(response);
+            $scope.course = {
+              title: "",
+              subtitle: "",
+              description: "",
+              modules: []
             }
           });
-        };
+        }
 
-
-        $scope.addAnswer = function(question) {
-          console.log(question);
-          if (!question.answers) {
-            question.answers = [];
+        //Adds an empty answer whenever user starts typing / Removes an answer when it's empty
+        $scope.answerEdited = [false];
+        $scope.answerChange = function(item, id) {
+          if (item.comment.length > 1 || item.subject.length > 1) {
+            $scope.answerEdited[id] = true;
           }
-          question.answers.push({
-            subject: "Enoncé de l'item",
-            isCorrect: false,
-            comment: "Correction de l'item"
-          });
-        };
+          if (!$scope.answerEdited[id] && (item.comment.length == 1 || item.subject.length == 1)) {
+            $scope.newQcm.answers.push({
+              subject: "",
+              comment: "",
+              isCorrect: false
+            });
+          }
+
+          if (item.comment.length == 0 && item.subject.length == 0) {
+            $scope.newQcm.answers.splice(id, 1);
+            $scope.answerEdited[id] = false;
+          }
+        }
       } else {
         $location.path('/');
       }
