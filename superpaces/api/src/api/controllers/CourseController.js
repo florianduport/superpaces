@@ -25,6 +25,7 @@ module.exports = {
 			description: req.param('description'),
 			category: req.param('category'),
 			tutor: req.param('tutor'),
+			image : req.param('image'),
 			modules: req.param('modules')
 		}).exec(function(err, course) {
 			if (err)
@@ -32,6 +33,26 @@ module.exports = {
 
 			res.send(course);
 		});
-	}
+	},
 
+	upload: function(req, res) {
+		if (req.method === 'GET')
+			return res.json({
+				'status': 'GET not allowed'
+			});
+
+		var uploadFile = req.file('uploadFile');
+		uploadFile.upload({
+				dirname: require('path').resolve(sails.config.appPath, '.tmp/public/uploads')
+			},
+			function onUploadComplete(err, files) {
+				if (err) return res.serverError(err);
+
+				if (files.length > 0) {
+					res.send({
+						filepath: files[0].fd.replace("/data/src/.tmp/public/", "http://177.10.0.11:1337/")
+					});
+				}
+			});
+	}
 };

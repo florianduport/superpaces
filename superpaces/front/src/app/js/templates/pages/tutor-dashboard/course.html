@@ -36,7 +36,7 @@
   <h1 ng-if="!course.id">Ajouter une colle</h1>
 
 
-    <form id="editCourseForm">
+    <form id="editCourseForm" name="courseForm">
 
       <!-- Description de la colle -->
       <div class="col-md-3">
@@ -63,7 +63,19 @@
           <option value="UE7">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
         </select><br/><br/>
         <label>Miniature de la colle</label><br/>
-        <input type="file" class="form-control"/>
+          <div class="input-group">
+            <input type="file" class="form-control" name="uploadImage"/>
+            <span class="input-group-btn">
+              <button class="btn btn-success" ng-click="upload()">
+              <span class="glyphicon glyphicon-upload"></span>
+              Upload
+              </button>
+              <a target="blank" class="btn btn-default" ng-show="course.image != undefined" href="{{course.image}}">
+              <span class="glyphicon glyphicon-zoom-in"></span>
+              Visualiser
+              </a>
+            </span>
+          </div>
 
       </div>
 

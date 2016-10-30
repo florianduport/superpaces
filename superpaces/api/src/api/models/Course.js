@@ -13,6 +13,7 @@ module.exports = {
   	description : 'STRING',
   	category : 'STRING',
   	tutor : {model : 'user'},
+    image : 'STRING',
   	modules : {
   		collection : 'module',
   		via : 'course'

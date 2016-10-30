@@ -46,7 +46,6 @@ superpacesApp.controller('global', function($scope) {
 
 });
 
-
 superpacesApp.controller('superpacesHomepageTutor', function($scope, $sails, $sce) {
   $scope.apiBaseUrl = apiBaseUrl;
   $scope.registerUrl = $sce.trustAsResourceUrl(apiBaseUrl + '/auth/register');
@@ -253,7 +252,7 @@ superpacesApp.controller('superpacesTutorEditCourse', function($scope, $routePar
     });
 });
 
-superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails, $location, $sce, $window) {
+superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails, $location, $sce, $window, $http) {
 
   $scope.apiBaseUrl = apiBaseUrl;
   $sails.get("/auth/getUser")
@@ -332,21 +331,41 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
           $scope.answerEdited = [false];
         };
 
-        //Saves the course and its modules in the database
-        //TODO : Save the QCMs
+        //Saves the course in the database
         $scope.addCourse = function() {
 
           $sails.post('/course/create', JSON.parse(angular.toJson($scope.course)))
-          .success(function(response) {
-            console.log(response);
-            $scope.course = {
-              title: "",
-              subtitle: "",
-              description: "",
-              modules: []
-            }
-          });
+            .success(function(response) {
+              $scope.course = {
+                title: "",
+                subtitle: "",
+                description: "",
+                image: undefined,
+                modules: []
+              }
+
+              angular.element("input[name='uploadImage']").val(null);
+            });
         }
+
+        //upload course image
+        $scope.upload = function() {
+
+          var fd = new FormData();
+          fd.append('uploadFile', courseForm.uploadImage.files[0]);
+
+          $http.post('http://177.10.0.11:1337/course/upload', fd, {
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            })
+            .success(
+              function(res) {
+                console.log(res);
+                $scope.course.image = res.filepath;
+              });
+        };
 
         //Adds an empty answer whenever user starts typing / Removes an answer when it's empty
         $scope.answerEdited = [false];
