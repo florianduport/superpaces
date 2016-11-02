@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var baseUrl = 'http://137.74.40.175/'
+var baseUrl = 'http://137.74.40.175:1337/'
 module.exports = {
 
 	getById: function(req, res) {
