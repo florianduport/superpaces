@@ -252,7 +252,7 @@ superpacesApp.controller('superpacesTutorEditCourse', function($scope, $routePar
     });
 });
 
-superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails, $location, $sce, $window, $http) {
+superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails, $location, $sce, $window, $http, $anchorScroll) {
   $scope.apiBaseUrl = apiBaseUrl;
   $sails.get("/auth/getUser")
     .success(function(data, status, headers, jwr) {
@@ -261,7 +261,7 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
 
         $scope.course = {
           tutor: $scope.CurrentUser.id,
-          category: "UE2"
+          category: "UE2",
         };
 
         $scope.newQcm = {
@@ -276,7 +276,8 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
 
         $scope.error = {
           moduleerror: false,
-          questionerror: false
+          questionerror: false,
+          courseerror: false
         };
 
         $scope.addModule = function(isValid) {
@@ -347,20 +348,30 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
         };
 
         //Saves the course in the database
-        $scope.addCourse = function() {
+        $scope.addCourse = function(isValid) {
+          if (isValid) {
+            $sails.post('/course/create', JSON.parse(angular.toJson($scope.course)))
+              .success(function(response) {
+                console.log(response);
+                $scope.course = {
+                  title: "",
+                  subtitle: "",
+                  description: "",
+                  image: undefined,
+                  modules: []
+                }
+                $scope.success = "Vous avez créé une Colle !"
+                angular.element("input[name='uploadImage']").val(null);
+              })
+              .error(function(err) {
+                console.log(err);
+                $scope.serverError = err.serverError;
 
-          $sails.post('/course/create', JSON.parse(angular.toJson($scope.course)))
-            .success(function(response) {
-              $scope.course = {
-                title: "",
-                subtitle: "",
-                description: "",
-                image: undefined,
-                modules: []
-              }
-
-              angular.element("input[name='uploadImage']").val(null);
-            });
+              });
+            $scope.error.courseerror = false;
+          } else {
+            $scope.error.courseerror = true;
+          }
         }
 
         //upload course image

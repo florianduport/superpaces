@@ -41,28 +41,28 @@
     <div class="col-md-9 courseWhiteZone">
 
       <!-- TITRE DE LA COLLE -->
-      <div class="form-group" ng-class="{ 'has-error' : courseForm.title.$invalid && !courseForm.title.$pristine }">
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.title.$invalid && error.courseerror }">
         <label>Titre de la colle</label>
         <input type="text" required ng-model="course.title" name="title" class="form-control" placeholder="Ex : Biologie cellulaire et différenciation : Le cycle cellulaire" />
-        <p ng-show = "courseForm.title.$invalid && !courseForm.title.$pristine" class="help-block">
+        <p ng-show = "courseForm.title.$invalid && error.courseerror" class="help-block">
           Le Titre est obligatoire
         </p>
       </div>
 
       <!-- SOUS-TITRE DE LA COLLE -->
-      <div class="form-group" ng-class="{ 'has-error' : courseForm.subtitle.$invalid && !courseForm.subtitle.$pristine }">
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.subtitle.$invalid && error.courseerror }">
         <label>Sous-titre de la colle</label>
         <input type="text" required ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" />
-        <p ng-show = "courseForm.subtitle.$invalid && !courseForm.subtitle.$pristine" class="help-block">
+        <p ng-show = "courseForm.subtitle.$invalid && error.courseerror" class="help-block">
           Le Sous-titre est obligatoire
         </p>
       </div>
 
       <!-- DESCRIPTION DE LA COLLE -->
-      <div class="form-group" ng-class="{ 'has-error' : courseForm.description.$invalid && !courseForm.description.$pristine }">
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.description.$invalid && error.courseerror }">
         <label>Description de la colle</label>
         <textarea required ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea>
-        <p ng-show = "courseForm.description.$invalid && !courseForm.description.$pristine" class="help-block">
+        <p ng-show = "courseForm.description.$invalid && error.courseerror" class="help-block">
           La Description est obligatoire
         </p>
       </div>
@@ -173,7 +173,7 @@
               <div class="form-group" ng-class="{ 'has-error' : courseForm.answercomment.$invalid && error.questionerror }">
                 <textarea required ng-model="answer.comment" ng-change="answerChange(answer,$index)" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea>
                 <p ng-show = "courseForm.answercomment.$invalid && error.questionerror" class="help-block">
-                Le Commentaire de la réponse ne peut pas être vide
+                  Le Commentaire de la réponse ne peut pas être vide
                 </p>
               </div>
               <br/>
@@ -245,9 +245,22 @@
       <h3>Tout est prêt ?</h3>
       <p>Entrez les informations du module</p>
     </div>
+
     <div class="col-md-9 qcmList courseWhiteZone">
-      <input type="button" class="btn btn-success saveCourse" value="Sauvegarder" ng-click="addCourse()"/>
+      <div class="alert alert-danger" ng-show="serverError != undefined && serverError != ''">
+        <p><strong>Attention :</strong> {{serverError}}</p>
+      </div>
+      <div class="alert alert-success" ng-show="success != undefined && success != ''">
+        <p><strong>Félicitations :</strong> {{success}}</p>
+      </div>
+      <!-- BOUTON SAUVEGARDER -->
+      <input 
+      type="button" 
+      class="btn btn-success saveCourse" 
+      value="Sauvegarder" 
+      ng-click="addCourse(courseForm.title.$valid && courseForm.subtitle.$valid && courseForm.description.$valid)"/>
     </div>
+
   </form>
 
 </div>

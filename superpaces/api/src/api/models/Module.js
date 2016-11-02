@@ -8,8 +8,14 @@
 module.exports = {
 
   attributes: {
-  	title : 'STRING',
-  	comment : 'STRING',
+  	title : {
+      type : 'STRING',
+      required : true
+    },
+  	comment : {
+      type : 'STRING',
+      required : true
+    },
   	course : {
   		model : 'course'
   	},

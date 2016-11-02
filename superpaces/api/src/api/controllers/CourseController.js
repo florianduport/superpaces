@@ -19,20 +19,81 @@ module.exports = {
 	},
 
 	create: function(req, res) {
-		Course.create({
-			title: req.param('title'),
-			subtitle: req.param('subtitle'),
-			description: req.param('description'),
-			category: req.param('category'),
-			tutor: req.param('tutor'),
-			image : req.param('image'),
-			modules: req.param('modules')
-		}).exec(function(err, course) {
-			if (err)
-				return res.serverError(err);
+		var modules = req.param('modules');
+		var isValidCourse = false;
 
-			res.send(course);
-		});
+		//check that there is at least one Module
+		if (modules != undefined && modules.length > 0) {
+			modules.forEach(function(module, index) {
+				//check that Module has Title and Comment
+				if (module != undefined && module.title != undefined && module.comment != undefined) {
+					//check that Module contains at least one QCM
+					if (module.questions != undefined && module.questions.length > 0) {
+						var questions = module.questions;
+						questions.forEach(function(question, index) {
+							//check that QCM has Subject and Comment
+							if (question != undefined && question.subject != undefined && question.comment != undefined) {
+								// check that QCM contains at leat two Answers
+								if (question.answers != undefined && question.answers.length > 1) {
+									var answers = question.answers;
+									answers.forEach(function(answer, index) {
+										//check that Answer has Subject and Comment
+										if (answer != undefined && answer.subject != undefined && answer.comment != undefined) {
+											//all good
+										} else {
+											return res.badRequest({
+												serverError: 'Réponse Invalide'
+											});
+										}
+									});
+									//Validate the Course
+									isValidCourse = true;
+								} else {
+									return res.badRequest({
+										serverError: 'Le QCM doit contenir au moins deux réponses !'
+									});
+								}
+							} else {
+								return res.badRequest({
+									serverError: 'QCM Invalide'
+								});
+							}
+						});
+
+					} else {
+						return res.badRequest({
+							serverError: 'Le Module doit contenir au moins un QCM !'
+						});
+					}
+				} else {
+					return res.badRequest({
+						serverError: 'Module Invalide'
+					});
+				}
+			});
+		} else {
+			return res.badRequest({
+				serverError: 'La Colle doit contenir au moins un Module !'
+			});
+		}
+
+		//check isValidCourse and Create the Course in Datanbase
+		if (isValidCourse) {
+			Course.create({
+				title: req.param('title'),
+				subtitle: req.param('subtitle'),
+				description: req.param('description'),
+				category: req.param('category'),
+				tutor: req.param('tutor'),
+				image: req.param('image'),
+				modules: req.param('modules')
+			}).exec(function(err, course) {
+				if (err)
+					return res.serverError(err);
+
+				res.send(course);
+			});
+		}
 	},
 
 	upload: function(req, res) {
