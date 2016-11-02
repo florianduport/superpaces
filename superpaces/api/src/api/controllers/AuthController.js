@@ -7,6 +7,7 @@
 
 var passport = require('passport');
 var sha1 = require('sha1');
+var baseUrl = 'http://137.74.40.175/'
 module.exports = {
 
   index: function(req, res) {
@@ -15,7 +16,7 @@ module.exports = {
 
   logout: function(req, res) {
     req.logout();
-    res.redirect('http://177.10.0.10/');
+    res.redirect(baseUrl);
   },
 
   getUser: function(req, res){
@@ -59,7 +60,7 @@ module.exports = {
               if (err) {
                 res.view('500');
               }
-              res.redirect('http://177.10.0.10/');
+              res.redirect(baseUrl);
             });
           });
         }
@@ -78,7 +79,7 @@ module.exports = {
           res.view('500');
           return;
         }
-        res.redirect('http://177.10.0.10/');
+        res.redirect(baseUrl);
         return;
       });
     })(req, res);
@@ -94,7 +95,7 @@ module.exports = {
           res.view('500');
           return;
         }
-        res.redirect('http://177.10.0.10/');
+        res.redirect(baseUrl);
         return;
       });
     })(req, res);
@@ -111,7 +112,7 @@ module.exports = {
           return;
         }
 
-        res.redirect('http://177.10.0.10/');
+        res.redirect(baseUrl);
         return;
       });
     })(req, res);

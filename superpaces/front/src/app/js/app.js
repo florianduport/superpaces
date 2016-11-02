@@ -1,4 +1,4 @@
-var apiBaseUrl = 'http://177.10.0.11:1337';
+var apiBaseUrl = 'http://137.74.40.175:1337';
 
 var superpacesApp = angular.module('superpacesApp', ['ngResource', 'ngSails', 'ngRoute']);
 
@@ -380,7 +380,7 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
           var fd = new FormData();
           fd.append('uploadFile', courseForm.uploadImage.files[0]);
 
-          $http.post('http://177.10.0.11:1337/course/upload', fd, {
+          $http.post(apiBaseUrl + '/course/upload', fd, {
               transformRequest: angular.identity,
               headers: {
                 'Content-Type': undefined

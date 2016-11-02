@@ -36,7 +36,7 @@ $(document).ready(function(){
           </div><!--/.navbar-collapse -->
           <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
             <a href="#">{{user.name}}</a>
-            <a href="http://177.10.0.11:1337/auth/logout">Se déconnecter</a>
+            <a href="http://137.74.40.175:1337/auth/logout">Se déconnecter</a>
           </div>
         </div>
     </nav>
@@ -52,7 +52,7 @@ $(document).ready(function(){
         </div>
         <div class="col-md-6 col-md-offset-3 signupZone">
           <p class="text-center" style="padding-top: 10px;">ou</p>
-          <form action="http://177.10.0.11:1337/auth/local" method="post">
+          <form action="http://137.74.40.175:1337/auth/local" method="post">
             <input type="email" name="username" ng-model="email" class="form-control" placeholder="Email" required="Ce champs est requis" />
             <input type="password" name="password" ng-model="password" class="form-control" placeholder="Mot de passe" required="Ce champs est requis" />
             <input type="submit" class="btn btn-success" value="Se connecter">
