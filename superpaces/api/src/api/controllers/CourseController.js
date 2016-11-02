@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var baseUrl = 'http://137.74.40.175/'
 module.exports = {
 
 	getById: function(req, res) {
@@ -111,7 +112,7 @@ module.exports = {
 
 				if (files.length > 0) {
 					res.send({
-						filepath: files[0].fd.replace("/data/src/.tmp/public/", "http://177.10.0.11:1337/")
+						filepath: files[0].fd.replace("/data/src/.tmp/public/", baseUrl)
 					});
 				}
 			});
