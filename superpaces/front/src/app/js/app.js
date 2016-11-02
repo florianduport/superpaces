@@ -253,7 +253,6 @@ superpacesApp.controller('superpacesTutorEditCourse', function($scope, $routePar
 });
 
 superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails, $location, $sce, $window, $http) {
-
   $scope.apiBaseUrl = apiBaseUrl;
   $sails.get("/auth/getUser")
     .success(function(data, status, headers, jwr) {
@@ -275,60 +274,76 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
           }]
         };
 
-        $scope.addModule = function() {
-          if (!$scope.course.modules) {
-            $scope.course.modules = [];
-          }
+        $scope.error = {
+          moduleerror: false,
+          questionerror: false
+        };
 
-          if (!$scope.newModule.questions) {
-            $scope.newModule.questions = [];
-          }
+        $scope.addModule = function(isValid) {
+          if (isValid) {
+            if (!$scope.course.modules) {
+              $scope.course.modules = [];
+            }
 
-          $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
+            if (!$scope.newModule.questions) {
+              $scope.newModule.questions = [];
+            }
 
-          if ($scope.newQcm.subject != "" && $scope.newQcm.comment != "")
-            $scope.newModule.questions.push($scope.newQcm);
+            $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
 
-          $scope.course.modules.push($scope.newModule);
-          $scope.newModule = {
-            title: "",
-            comment: ""
-          };
+            if ($scope.newQcm.subject != "" && $scope.newQcm.comment != "")
+              $scope.newModule.questions.push($scope.newQcm);
 
-          $scope.newQcm = {
-            subject: "",
-            comment: "",
-            answers: [{
-              isCorrect: false,
-              subject: "",
+            $scope.course.modules.push($scope.newModule);
+            $scope.newModule = {
+              title: "",
               comment: ""
-            }]
-          };
+            };
 
-          $scope.answerEdited = [false];
+            $scope.newQcm = {
+              subject: "",
+              comment: "",
+              answers: [{
+                isCorrect: false,
+                subject: "",
+                comment: ""
+              }]
+            };
+
+            $scope.answerEdited = [false];
+            $scope.error.moduleerror = false;
+          } else {
+            $scope.error.moduleerror = true;
+          }
         };
 
 
-        $scope.addQuestion = function(item) {
+        $scope.addQuestion = function(isValid, item) {
+          if (isValid) {
 
-          if (!item.questions) {
-            item.questions = [];
-          }
 
-          $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
+            if (!item.questions) {
+              item.questions = [];
+            }
 
-          item.questions.push($scope.newQcm);
+            $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
 
-          $scope.newQcm = {
-            subject: "",
-            comment: "",
-            answers: [{
-              isCorrect: false,
+            item.questions.push($scope.newQcm);
+
+            $scope.newQcm = {
               subject: "",
-              comment: ""
-            }]
-          };
-          $scope.answerEdited = [false];
+              comment: "",
+              answers: [{
+                isCorrect: false,
+                subject: "",
+                comment: ""
+              }]
+            };
+            $scope.answerEdited = [false];
+            $scope.error.questionerror = false;
+          } else {
+            $scope.error.questionerror = true;
+          }
         };
 
         //Saves the course in the database
@@ -370,7 +385,7 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
         //Adds an empty answer whenever user starts typing / Removes an answer when it's empty
         $scope.answerEdited = [false];
         $scope.answerChange = function(item, id) {
-          if (item.comment.length > 1 || item.subject.length > 1) {
+          if ((item.comment != undefined && item.comment.length > 1) || (item.subject != undefined && item.subject.length > 1)) {
             $scope.answerEdited[id] = true;
           }
           if (!$scope.answerEdited[id] && (item.comment.length == 1 || item.subject.length == 1)) {
@@ -381,11 +396,11 @@ superpacesApp.controller('superpacesTutorCreateCourse', function($scope, $sails,
             });
           }
 
-          if (item.comment.length == 0 && item.subject.length == 0) {
+          if ((item.comment == undefined || item.comment.length == 0) && (item.subject == undefined || item.subject.length == 0)) {
             $scope.newQcm.answers.splice(id, 1);
             $scope.answerEdited[id] = false;
           }
-        }
+        };
       } else {
         $location.path('/');
       }

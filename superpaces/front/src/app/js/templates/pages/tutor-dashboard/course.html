@@ -1,179 +1,253 @@
 <link rel="stylesheet" type="text/css" href="/css/tutor-dashboard.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-<script type="text/javascript">
 
-
-
-</script>
-
+<!-- NAV ZONE -->
 <nav class="navbar navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/#!/"><img src="/img/homepage-tutor/Super-paces-logo-blanc.png"/></a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse pull-right" ng-if="!user.name">
-        <a href="/#!/tutor-register">S'inscrire</a>
-        <a href="/#!/tutor-login">Se connecter</a>
-        <a href="/#!/tutor-register"><input type="button" class="btn btn-success becomeTutor" value="Devenir tuteur"/></a>
-      </div><!--/.navbar-collapse -->
-      <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
-        <a href="#">Mes colles</a>
-        <a href="#">Mon compte</a>
-        <a href="http://177.10.0.11:1337/auth/logout">Se déconnecter</a>
-      </div>
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/#!/"><img src="/img/homepage-tutor/Super-paces-logo-blanc.png"/></a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse pull-right" ng-if="!user.name">
+      <a href="/#!/tutor-register">S'inscrire</a>
+      <a href="/#!/tutor-login">Se connecter</a>
+      <a href="/#!/tutor-register"><input type="button" class="btn btn-success becomeTutor" value="Devenir tuteur"/></a>
+    </div><!--/.navbar-collapse -->
+    <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
+      <a href="#">Mes colles</a>
+      <a href="#">Mon compte</a>
+      <a href="http://177.10.0.11:1337/auth/logout">Se déconnecter</a>
+    </div>
+  </div>
 </nav>
 
+<!-- COURSE CONTAINER -->
 <div id="coursesContainer" class="col-md-8 col-md-offset-2">
   <h1 ng-if="course.id" class="text-center">Editer une colle</h1>
   <h1 ng-if="!course.id">Ajouter une colle</h1>
 
+  <!-- COURSE FORM -->
+  <form id="editCourseForm" name="courseForm" novalidate>
+    <div class="col-md-3">
+      <h3>Informations de la colle</h3>
+      <p>Entrez les informations de la colle</p>
+    </div>
+    <div class="col-md-9 courseWhiteZone">
 
-    <form id="editCourseForm" name="courseForm">
-
-      <!-- Description de la colle -->
-      <div class="col-md-3">
-        <h3>Informations de la colle</h3>
-        <p>Entrez les informations de la colle</p>
-      </div>
-      <div class="col-md-9 courseWhiteZone">
-
+      <!-- TITRE DE LA COLLE -->
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.title.$invalid && !courseForm.title.$pristine }">
         <label>Titre de la colle</label>
-        <input type="text" ng-model="course.title" name="title" class="form-control" placeholder="Ex : Biologie cellulaire et différenciation : Le cycle cellulaire" /><br/><br/>
-        <label>Sous-titre de la colle</label>
-        <input type="text" ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" /><br/><br/>
-        <label>Description de la colle</label>
-        <textarea ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea><br/><br/>
-        <label>UE de la colle</label><br/>
-        <select ng-model="course.category" class="form-control">
-          <option value="UE1">UE 1 : ATOMES – BIOMOLECULES – GENOME – BIOENERGETIQUE – METABOLISME</option>
-          <option value="UE2">UE 2 : LA CELLULE ET LES TISSUS</option>
-          <option value="UE31">UE 3.1 : ORGANISATION DES APPAREILS ET DES SYSTEMES : BASES PHYSIQUES DES METHODES D’EXPLORATION</option>
-          <option value="UE32">UE 3.2 : ORGANISATION DES APPAREILS ET DES SYSTEMES : ASPECTS FONCTIONNELS</option>
-          <option value="UE4">UE 4 : EVALUATION DES METHODES D’ANALYSES APPLIQUEES AUX SCIENCES DE LA VIE ET DE LA SANTE</option>
-          <option value="UE5">UE 5 : ORGANISATION DES APPAREILS ET SYSTEMES : ASPECTS MORPHOLOGIQUES ET FONCTIONNELS</option>
-          <option value="UE6">UE 6 : INITIATION A LA CONNAISSANCE DU MEDICAMENT</option>
-          <option value="UE7">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
-        </select><br/><br/>
-        <label>Miniature de la colle</label><br/>
-          <div class="input-group">
-            <input type="file" class="form-control" name="uploadImage"/>
-            <span class="input-group-btn">
-              <button class="btn btn-success" ng-click="upload()">
-              <span class="glyphicon glyphicon-upload"></span>
-              Upload
-              </button>
-              <a target="blank" class="btn btn-default" ng-show="course.image != undefined" href="{{course.image}}">
-              <span class="glyphicon glyphicon-zoom-in"></span>
-              Visualiser
-              </a>
-            </span>
-          </div>
-
+        <input type="text" required ng-model="course.title" name="title" class="form-control" placeholder="Ex : Biologie cellulaire et différenciation : Le cycle cellulaire" />
+        <p ng-show = "courseForm.title.$invalid && !courseForm.title.$pristine" class="help-block">
+          Le Titre est obligatoire
+        </p>
       </div>
 
-      <div class="courseModulesZone">
+      <!-- SOUS-TITRE DE LA COLLE -->
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.subtitle.$invalid && !courseForm.subtitle.$pristine }">
+        <label>Sous-titre de la colle</label>
+        <input type="text" required ng-model="course.subtitle" name="subtitle" class="form-control" placeholder="Sous-titre de la colle" />
+        <p ng-show = "courseForm.subtitle.$invalid && !courseForm.subtitle.$pristine" class="help-block">
+          Le Sous-titre est obligatoire
+        </p>
+      </div>
 
-        <div class="col-md-3 qcmList">
-          <h3>Création du module</h3>
-          <p>Entrez les informations du module</p>
-        </div>
-        <div class="col-md-9 qcmList courseWhiteZone">
+      <!-- DESCRIPTION DE LA COLLE -->
+      <div class="form-group" ng-class="{ 'has-error' : courseForm.description.$invalid && !courseForm.description.$pristine }">
+        <label>Description de la colle</label>
+        <textarea required ng-model="course.description" name="description" class="form-control" placeholder="Description de la colle"></textarea>
+        <p ng-show = "courseForm.description.$invalid && !courseForm.description.$pristine" class="help-block">
+          La Description est obligatoire
+        </p>
+      </div>
+
+      <!-- UE DE LA COLLE -->
+      <label>UE de la colle</label><br/>
+      <select ng-model="course.category" class="form-control">
+        <option value="UE1">UE 1 : ATOMES – BIOMOLECULES – GENOME – BIOENERGETIQUE – METABOLISME</option>
+        <option value="UE2">UE 2 : LA CELLULE ET LES TISSUS</option>
+        <option value="UE31">UE 3.1 : ORGANISATION DES APPAREILS ET DES SYSTEMES : BASES PHYSIQUES DES METHODES D’EXPLORATION</option>
+        <option value="UE32">UE 3.2 : ORGANISATION DES APPAREILS ET DES SYSTEMES : ASPECTS FONCTIONNELS</option>
+        <option value="UE4">UE 4 : EVALUATION DES METHODES D’ANALYSES APPLIQUEES AUX SCIENCES DE LA VIE ET DE LA SANTE</option>
+        <option value="UE5">UE 5 : ORGANISATION DES APPAREILS ET SYSTEMES : ASPECTS MORPHOLOGIQUES ET FONCTIONNELS</option>
+        <option value="UE6">UE 6 : INITIATION A LA CONNAISSANCE DU MEDICAMENT</option>
+        <option value="UE7">UE 7 : SANTE, SOCIETE, HUMANITE RESPONSABLES</option>
+      </select><br/><br/>
+
+      <!-- MINIATURE DE LA COLLE -->
+      <label>Miniature de la colle</label><br/>
+      <div class="input-group">
+        <input type="file" class="form-control" name="uploadImage"/>
+        <span class="input-group-btn">
+          <button class="btn btn-success" ng-click="upload()">
+            <span class="glyphicon glyphicon-upload"></span>
+            Upload
+          </button>
+          <a target="blank" class="btn btn-default" ng-show="course.image != undefined" href="{{course.image}}">
+            <span class="glyphicon glyphicon-zoom-in"></span>
+            Visualiser
+          </a>
+        </span>
+      </div>
+
+    </div>
+
+    <!-- MODULES ZONE -->
+    <div class="courseModulesZone">
+      <div class="col-md-3 qcmList">
+        <h3>Création du module</h3>
+        <p>Entrez les informations du module</p>
+      </div>
+
+      <div class="col-md-9 qcmList courseWhiteZone">
+        <!-- TITRE DU MODULE -->
+        <div class="form-group" ng-class="{ 'has-error' : courseForm.moduletitle.$invalid && error.moduleerror }">
           <label>Titre du module</label>
-          <input type="text" ng-model="newModule.title" name="moduletitle" class="form-control" placeholder='Titre du module : Ex : "Histologie humaine - Les épithéliums"' /><br/><br/>
-          <label>Correction du module</label>
-          <textarea ng-model="newModule.comment" name="modulecomment" class="form-control" placeholder="Commentaire du module : détaillez ici vos commentaires à propos de ce module"></textarea><br/>
+          <input type="text" required ng-model="newModule.title" name="moduletitle" class="form-control" placeholder='Titre du module : Ex : "Histologie humaine - Les épithéliums"' />
+          <p ng-show = "courseForm.moduletitle.$invalid && error.moduleerror" class="help-block">
+            Le Titre du Module est obligatoire
+          </p>
+        </div>
 
-          <input type="button" class="addmodule btn btn-success" ng-click="addModule()" value="Ajouter un module" /><br/><br/><br/>
-          <h4 class="text-center">Les QCM du module</h4><br/><br/>
-          <div>
-            <input type="text" ng-model="newQcm.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' /><br/>
+        <!-- COMMENTAIRE DU MODULE -->
+        <div class="form-group" ng-class="{ 'has-error' : courseForm.modulecomment.$invalid && error.moduleerror }">
+          <label>Commentaire du module</label>
+          <textarea required ng-model="newModule.comment" name="modulecomment" class="form-control" placeholder="Commentaire du module : détaillez ici vos commentaires à propos de ce module"></textarea>
+          <p ng-show = "courseForm.modulecomment.$invalid && error.moduleerror" class="help-block">
+            Le Commentaire du Module est obligatoire
+          </p>
+        </div>
+
+        <!-- BOUTON AJOUTER UN MODULE -->
+        <input 
+        type="button" 
+        class="addmodule btn btn-success" 
+        ng-click="addModule(courseForm.moduletitle.$valid && courseForm.modulecomment.$valid)" 
+        value="Ajouter un module" />
+
+        <br/>
+        <h4 class="text-center">Les QCM du module</h4><br/><br/>
+        <div>
+
+          <!-- QUESTION DU QCM -->
+          <div class="form-group" ng-class="{ 'has-error' : courseForm.questionsubject.$invalid && error.questionerror }">
+            <input type="text" required ng-model="newQcm.subject" name="questionsubject" class="form-control" placeholder='Titre du QCM : Ex : "Concernant le tissu catilagineux, indiquez la ou les réponses exactes :"' />
+            <p ng-show = "courseForm.questionsubject.$invalid && error.questionerror" class="help-block">
+              La Question est obligatoire
+            </p>
+          </div>
           
-            <textarea ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea>
-
-            <div ng-repeat="answer in newQcm.answers"><br/>
-              <div class="input-group col-md-11 col-md-offset-1">
-                <!-- TOOLTIP- -->
-                <div class="input-group-addon"><input type="checkbox" ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" /></div>
-                <input type="text" ng-model="answer.subject" ng-change="answerChange(answer,$index)" name="answersubject" class="form-control greenCheckbox answersubject" placeholder="Enoncé de l'item du QCM" />
-              </div><br/>
-              <div class="input-group col-md-11 col-md-offset-1">
-                <textarea ng-model="answer.comment" ng-change="answerChange(answer,$index)" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea><br/>
-              </div>
-            </div><br/>
-            <input type="button" class="addQuestion btn btn-success" ng-click="addQuestion(course.modules[course.modules.length - 1])" value="Ajouter un QCM" /><br/><br/><br/>
+          <!-- COMMENTAIRE DE LA QUESTION -->
+          <div class="form-group" ng-class="{ 'has-error' : courseForm.questioncomment.$invalid && error.questionerror }">
+            <textarea required ng-model="newQcm.comment" name="questioncomment" class="form-control" placeholder="Correction du QCM : détaillez ici vos commentaires à propos de ce QCM"></textarea>
+            <p ng-show = "courseForm.questioncomment.$invalid && error.questionerror" class="help-block">
+              Le Commentaire de la question est obligatoire
+            </p>
           </div>
 
-          <div class="qcmDoneZone">
+          <div ng-repeat="answer in newQcm.answers"><br/>
+            <div class="input-group col-md-11 col-md-offset-1">
+              <div class="input-group-addon">
+                <input type="checkbox" required ng-model="answer.isCorrect" name="answercorrect" class="form-control answerCourseCorrect" placeholder="Est-ce la bonne réponse" />
+              </div>
 
-            <div ng-repeat="module in course.modules">
+              <!-- REPONSE DE LA QUESTION -->
+              <div class="form-group" ng-class="{ 'has-error' : courseForm.answersubject.$invalid && error.questionerror }">
+                <input type="text" required ng-model="answer.subject" ng-change="answerChange(answer,$index)" name="answersubject" class="form-control greenCheckbox answersubject" placeholder="Enoncé de l'item du QCM" />
+                <p ng-show = "courseForm.answersubject.$invalid && error.questionerror" class="help-block">
+                  La réponse ne peut pas être vide
+                </p>
+              </div>
 
+            </div><br/>
+            <div class="input-group col-md-11 col-md-offset-1">
+
+
+              <!-- COMMENTAIRE DE LA REPONSE -->
+              <div class="form-group" ng-class="{ 'has-error' : courseForm.answercomment.$invalid && error.questionerror }">
+                <textarea required ng-model="answer.comment" ng-change="answerChange(answer,$index)" name="answercomment" class="form-control" placeholder="Correction ou commentaire(s) de l'item du QCM"></textarea>
+                <p ng-show = "courseForm.answercomment.$invalid && error.questionerror" class="help-block">
+                Le Commentaire de la réponse ne peut pas être vide
+                </p>
+              </div>
+              <br/>
+            </div>
+          </div><br/>
+
+          <!-- BOUTON AJOUTER QCM -->
+          <input type="button" 
+          class="addQuestion btn btn-success" 
+          ng-click="addQuestion(
+          courseForm.questionsubject.$valid && courseForm.questioncomment.$valid,
+          course.modules[course.modules.length - 1])" 
+          value="Ajouter un QCM" /><br/><br/><br/>
+        </div>
+
+        <div class="qcmDoneZone">
+
+          <div ng-repeat="module in course.modules">
+
+            <div class="col-md-9">
+              <h4 class="text-center">{{module.title}}</h4>
+              <p class="text-center qcmDoneZoneComment">{{module.comment}}</p>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-warning"  ng-click="removeModule(module)"><span class="fa fa-trash-o"></span></button>
+            </div>
+            <br/><br/><br/><br/>
+            <div ng-repeat="question in module.questions">
+              <br/><br/>
               <div class="col-md-9">
-                <h4 class="text-center">{{module.title}}</h4>
-                <p class="text-center qcmDoneZoneComment">{{module.comment}}</p>
+                <p>QCM X : {{question.subject}}</p>
               </div>
               <div class="col-md-3">
-                <button class="btn btn-warning"  ng-click="removeModule(module)"><span class="fa fa-trash-o"></span></button>
-              </div>
-              <br/><br/><br/><br/>
-              <div ng-repeat="question in module.questions">
-                <br/><br/>
-                <div class="col-md-9">
-                  <p>QCM X : {{question.subject}}</p>
-                </div>
-                <div class="col-md-3">
-                  <button class="btn btn-info" ng-click="moveQcm(question, true)"><span class="fa fa-arrow-up"></span></button>
-                  <button class="btn btn-info" ng-click="moveQcm(question, false)"><span class="fa fa-arrow-down"></span></button>
-                  <button class="btn btn-warning" ng-click="removeQcm(question)"><span class="fa fa-trash-o"></span></button>
-                </div>
-
-                <ul><br/> <br/>
-                  <li ng-repeat="answer in question.answers">
-                    <span ng-if="answer.isCorrect" class="qcmDoneZoneCorrectAnswer">
-                      {{answer.subject}} <span class="fa fa-check"></span>
-                    </span>
-                    <span ng-if="!answer.isCorrect" class="">
-                      {{answer.subject}}
-                    </span>
-                    <p class="qcmDoneZoneComment">{{answer.comment}}</p>
-                  </li>
-                </ul>
-
+                <button class="btn btn-info" ng-click="moveQcm(question, true)"><span class="fa fa-arrow-up"></span></button>
+                <button class="btn btn-info" ng-click="moveQcm(question, false)"><span class="fa fa-arrow-down"></span></button>
+                <button class="btn btn-warning" ng-click="removeQcm(question)"><span class="fa fa-trash-o"></span></button>
               </div>
 
+              <ul><br/> <br/>
+                <li ng-repeat="answer in question.answers">
+                  <span ng-if="answer.isCorrect" class="qcmDoneZoneCorrectAnswer">
+                    {{answer.subject}} <span class="fa fa-check"></span>
+                  </span>
+                  <span ng-if="!answer.isCorrect" class="">
+                    {{answer.subject}}
+                  </span>
+                  <p class="qcmDoneZoneComment">{{answer.comment}}</p>
+                </li>
+              </ul>
             </div>
-
           </div>
-
         </div>
       </div>
-      <div class="col-md-3 qcmList">
-        <h3>Prix de la colle</h3>
-        <p>Entrez les informations du module</p>
-      </div>
-      <div class="col-md-9 qcmList courseWhiteZone">
-        <label>Prix de la colle</label>
-        <select ng-model="course.category" class="form-control">
-          <option value="UE1">2,00 €</option>
-          <option value="UE2">3,00 €</option>
-          <option value="UE3">4,00 €</option>
-        </select>
-      </div>
+    </div>
+    <div class="col-md-3 qcmList">
+      <h3>Prix de la colle</h3>
+      <p>Entrez les informations du module</p>
+    </div>
+    <div class="col-md-9 qcmList courseWhiteZone">
+      <label>Prix de la colle</label>
+      <select ng-model="course.category" class="form-control">
+        <option value="UE1">2,00 €</option>
+        <option value="UE2">3,00 €</option>
+        <option value="UE3">4,00 €</option>
+      </select>
+    </div>
 
-      <div class="col-md-3 qcmList">
-        <h3>Tout est prêt ?</h3>
-        <p>Entrez les informations du module</p>
-      </div>
-      <div class="col-md-9 qcmList courseWhiteZone">
-        <input type="button" class="btn btn-success saveCourse" value="Sauvegarder" ng-click="addCourse()"/>
-      </div>
-    </form>
+    <div class="col-md-3 qcmList">
+      <h3>Tout est prêt ?</h3>
+      <p>Entrez les informations du module</p>
+    </div>
+    <div class="col-md-9 qcmList courseWhiteZone">
+      <input type="button" class="btn btn-success saveCourse" value="Sauvegarder" ng-click="addCourse()"/>
+    </div>
+  </form>
 
 </div>
