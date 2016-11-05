@@ -96,14 +96,16 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: ['Gruntfile.js', 'app/*.js', 'app/*.html', 'app/js/templates/*.html', 'app/js/templates/pages/tutor-dashboard/*.html', 'app/js/templates/pages/*.html', 'app/js/*.js', 'app/css/*.less'],
+        files: ['Gruntfile.js', 'app/*.js', 'app/*.html', 
+                'app/js/Controllers/*.js','app/js/Helpers/*.js','app/js/Resources/*.js',
+                'app/js/templates/*.html', 'app/js/templates/pages/tutor-dashboard/*.html', 'app/js/templates/pages/*.html', 'app/js/*.js', 'app/css/*.less'],
         tasks: ['copy', 'html2js:dist', 'concat:dist', 'clean:temp', 'clean:less', 'less:development'],
         options: {
           atBegin: true
         }
       },
       min: {
-        files: ['Gruntfile.js', 'app/*.js', '*.html'],
+        files: ['Gruntfile.js', 'app/**.js', '*.html'],
         tasks: ['html2js:dist', 'concat:dist', 'clean:temp', 'uglify:dist'],
         options: {
           atBegin: true

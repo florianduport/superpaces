@@ -12,6 +12,11 @@
 
 module.exports = {
 
+  globals: {
+    baseUrl: 'http://137.74.40.175/',
+    baseApiUrl: 'http://137.74.40.175:1337/'
+  }
+
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *

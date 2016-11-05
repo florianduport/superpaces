@@ -7,7 +7,9 @@
 
 var passport = require('passport');
 var sha1 = require('sha1');
-var baseUrl = 'http://137.74.40.175/'
+
+var baseUrl = sails.config.globals.baseUrl;
+
 module.exports = {
 
   index: function(req, res) {

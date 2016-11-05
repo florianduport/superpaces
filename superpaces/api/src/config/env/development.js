@@ -12,13 +12,18 @@
 
 module.exports = {
 
-  /***************************************************************************
-   * Set the default database connection for models in the development       *
-   * environment (see config/connections.js and config/models.js )           *
-   ***************************************************************************/
+	globals: {
+		baseUrl: 'http://177.10.0.10/',
+		baseApiUrl: 'http://177.10.0.11:1337/'
+	}
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
+	/***************************************************************************
+	 * Set the default database connection for models in the development       *
+	 * environment (see config/connections.js and config/models.js )           *
+	 ***************************************************************************/
+
+	// models: {
+	//   connection: 'someMongodbServer'
+	// }
 
 };

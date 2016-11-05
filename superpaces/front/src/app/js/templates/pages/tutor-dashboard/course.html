@@ -22,7 +22,7 @@
     <div class="navbarConnected navbar-collapse collapse pull-right" ng-if="user.name">
       <a href="#">Mes colles</a>
       <a href="#">Mon compte</a>
-      <a href="http://137.74.40.175:1337/auth/logout">Se déconnecter</a>
+      <a href="{{logoutUrl}}">Se déconnecter</a>
     </div>
   </div>
 </nav>
@@ -251,7 +251,7 @@
         <p><strong>Attention :</strong> {{serverError}}</p>
       </div>
       <div class="alert alert-success" ng-show="success != undefined && success != ''">
-        <p><strong>Félicitations :</strong> {{success}}</p>
+        <p ng-bind-html="success">{{success}}</p>
       </div>
       <!-- BOUTON SAUVEGARDER -->
       <input 
