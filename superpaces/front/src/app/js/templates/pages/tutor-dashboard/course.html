@@ -87,15 +87,20 @@
         <span class="input-group-btn">
           <button class="btn btn-success" ng-click="upload()">
             <span class="glyphicon glyphicon-upload"></span>
-            Upload
+            <i ng-hide="showLoading">Upload</i>
+            <i ng-show="showLoading">Uploading</i>
+            <i ng-show="showLoading" class="fa fa-spinner fa-spin"></i>
           </button>
-          <a target="blank" class="btn btn-default" ng-show="course.image != undefined" href="{{course.image}}">
+          <a target="blank" class="btn btn-default" ng-show="course.image != undefined && uploadError == undefined" href="{{course.image}}">
             <span class="glyphicon glyphicon-zoom-in"></span>
             Visualiser
           </a>
-        </span>
-      </div>
 
+        </span>
+      </div><br/>
+      <div class="alert alert-danger" ng-show="uploadError != undefined && uploadError != ''">
+      <p ng-bind-html="uploadError">{{uploadError}}</p>
+      </div>
     </div>
 
     <!-- MODULES ZONE -->

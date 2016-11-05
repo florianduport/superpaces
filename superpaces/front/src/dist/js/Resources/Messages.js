@@ -3,6 +3,7 @@ var Messages = angular.module('Resources',[]);
 Messages.constant("RESOURCES",{
 	"MESSAGES" : {
 		"SUCESS_CREATE_COURSE" : "<b>Félicitations !</b> Vous avez créé une nouvelle Colle.",
+		"UPLOAD_ERROR" : "<b>Fichier non comforme !</b><br/>Verifiez que : <br/><ul><li>La taille du fichier : < 500 Ko</li><li>Format : JPG, PNG</li></ul>",
 		"ERROR_2" : "My error 2"
 	},
 	"CONFIG" : {
@@ -27,6 +28,10 @@ Messages.constant("RESOURCES",{
 		"API_COURSE_CREATE" : "/course/create",
 		"API_COURSE_EDIT" : "/course?id=",
 		"API_COURSE_BY_TUTOR" : "/course?tutor=",
-		"API_COURSE_UPLOAD" : "/course/upload"
+		"API_COURSE_UPLOAD" : "/course/upload",
+
+
+		//Other value
+		"ALLOWED_FILE_TYPES" : ["image/jpeg","image/png"]
 	}
 });

@@ -308,21 +308,42 @@ CourseCtrl.controller('superpacesTutorCreateCourse', function($scope, $sails, $l
 
 				//upload course image
 				$scope.upload = function() {
+					var fileToUpload = courseForm.uploadImage.files[0];
 
+					if(fileToUpload == undefined)
+						return false;
+
+					
 					var fd = new FormData();
-					fd.append('uploadFile', courseForm.uploadImage.files[0]);
-					var uploadUrl = $sce.trustAsResourceUrl(RESOURCES.CONFIG.BASEAPIURL) + RESOURCES.CONFIG.API_COURSE_UPLOAD;
-					$http.post(uploadUrl, fd, {
-							transformRequest: angular.identity,
-							headers: {
-								'Content-Type': undefined
-							}
-						})
-						.success(
-							function(res) {
-								console.log(res);
-								$scope.course.image = res.filepath;
+
+					if (RESOURCES.CONFIG.ALLOWED_FILE_TYPES.indexOf(fileToUpload.type) == -1 || fileToUpload.size > 500000) {
+
+						$scope.showLoading = false;
+						$scope.uploadError = $sce.trustAsHtml(RESOURCES.MESSAGES.UPLOAD_ERROR);
+
+					} else {
+						$scope.showLoading = true;
+						fd.append('uploadFile', courseForm.uploadImage.files[0]);
+						var uploadUrl = $sce.trustAsResourceUrl(RESOURCES.CONFIG.BASEAPIURL) + RESOURCES.CONFIG.API_COURSE_UPLOAD;
+						$http.post(uploadUrl, fd, {
+								transformRequest: angular.identity,
+								headers: {
+									'Content-Type': undefined
+								}
+							})
+							.success(
+								function(res) {
+									console.log(res);
+									$scope.uploadError = undefined;
+									$scope.course.image = res.filepath;
+									$scope.showLoading = false;
+								})
+							.error(function(err) {
+								$scope.showLoading = false;
+								$scope.uploadError = $sce.trustAsHtml(RESOURCES.MESSAGES.UPLOAD_ERROR);
 							});
+					}
+
 				};
 
 				//Adds an empty answer whenever user starts typing / Removes an answer when it's empty

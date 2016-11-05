@@ -104,10 +104,27 @@ module.exports = {
 				'status': 'GET not allowed'
 			});
 
+		var allowedTypes = ['image/jpeg', 'image/png'];
 		var uploadFile = req.file('uploadFile');
+
+
+
 		uploadFile.upload({
+				saveAs: function(file, cb) {
+					var now = new Date();
+					var extension = file.filename.split('.').pop();
+					// generating unique filename with extension
+					var uuid = file.filename + "_" + now.getMilliseconds() + "." + extension;
+					if (allowedTypes.indexOf(file.headers['content-type']) === -1) {
+						return res.serverError({file : file});
+					} else {
+						cb(null, uuid);
+					}
+				},
+				maxBytes: 500000, //500KB
 				dirname: require('path').resolve(sails.config.appPath, '.tmp/public/uploads')
 			},
+
 			function onUploadComplete(err, files) {
 				if (err) return res.serverError(err);
 
