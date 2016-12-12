@@ -28,6 +28,7 @@ module.exports = {
 		//check that there is at least one Module
 		if (modules != undefined && modules.length > 0) {
 			modules.forEach(function(module, index) {
+
 				//check that Module has Title and Comment
 				if (module != undefined && module.title != undefined && module.comment != undefined) {
 					//check that Module contains at least one QCM
@@ -41,7 +42,7 @@ module.exports = {
 									var answers = question.answers;
 									answers.forEach(function(answer, index) {
 										//check that Answer has Subject and Comment
-										if (answer != undefined && answer.subject != undefined && answer.comment != undefined) {
+										if (answer != undefined && answer.subject != undefined) {
 											//all good
 										} else {
 											return res.badRequest({
@@ -82,7 +83,7 @@ module.exports = {
 
 		//check isValidCourse and Create the Course in Datanbase
 		if (isValidCourse) {
-			Course.create({
+			var newCourse = {
 				title: req.param('title'),
 				subtitle: req.param('subtitle'),
 				description: req.param('description'),
@@ -90,12 +91,41 @@ module.exports = {
 				tutor: req.param('tutor'),
 				image: req.param('image'),
 				modules: req.param('modules')
+			};
+
+			console.log('###NABIL### NEW COURSE : ' + newCourse.title + ' ' + newCourse.subtitle);
+			if(req.param('id'))
+			{
+				Course.find({
+				id: req.param('id')
 			}).exec(function(err, course) {
 				if (err)
 					return res.serverError(err);
+				
+					console.log('###NABIL### COURSE EXISTS WE CREATE IT');
+					Course.update(
+						{id : req.param('id')}, 
+						newCourse, 
+						function(err, updated) {
+						if (err)
+							return res.serverError(err);
 
-				res.send(course);
+
+						console.log('###NABIL### UPDATED COURSE : ' + updated[0]);
+						res.send(updated);
+					});
+				
 			});
+			}else{
+				console.log('###NABIL### IT IS A NEW COURSE');
+					Course.create(newCourse).exec(function(err, course) {
+						if (err)
+							return res.serverError(err);
+
+						res.send(course);
+					});
+			}
+			
 		}
 	},
 
@@ -117,7 +147,9 @@ module.exports = {
 					// generating unique filename with extension
 					var uuid = file.filename + "_" + now.getMilliseconds() + "." + extension;
 					if (allowedTypes.indexOf(file.headers['content-type']) === -1) {
-						return res.serverError({file : file});
+						return res.serverError({
+							file: file
+						});
 					} else {
 						cb(null, uuid);
 					}
