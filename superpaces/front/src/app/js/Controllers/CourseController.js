@@ -249,54 +249,6 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
                         };
                     }
 
-                    $scope.addModule = function(isValid) {
-                        $scope.init();
-
-                        if (isValid) {
-                            if (!$scope.course.modules) {
-                                $scope.course.modules = [];
-                            }
-
-                            if (!$scope.newModule.questions) {
-                                $scope.newModule.questions = [];
-                            }
-
-                            $scope.newQcm.answers.splice($scope.newQcm.answers.length - 1, 1);
-
-                            if ($scope.newQcm.subject != "" && $scope.newQcm.comment != "")
-                                $scope.newModule.questions.push($scope.newQcm);
-
-                            $scope.course.modules.push($scope.newModule);
-                            $scope.newModule = {
-                                title: "",
-                                comment: "",
-                                questions: [{
-                                    subject: "",
-                                    comment: "",
-                                    answers: [{
-                                        subject: "",
-                                        comment: "",
-                                        isCorrect: false
-                                    }]
-                                }]
-                            };
-
-                            $scope.newQcm = {
-                                subject: "",
-                                comment: "",
-                                answers: [{
-                                    isCorrect: false,
-                                    subject: "",
-                                    comment: ""
-                                }]
-                            };
-
-                            $scope.answerEdited = [false];
-                            $scope.error.moduleerror = false;
-                        } else {
-                            $scope.error.moduleerror = true;
-                        }
-                    };
 
                     $scope.removeModule = function(moduleToDelete) {
                         if ($scope.newModules.indexOf(moduleToDelete) > -1) {
@@ -327,26 +279,25 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
 
                     //Saves the course in the database
                     $scope.addCourse = function(isValid) {
-                        console.log($scope.newModules);
                         $scope.course.modules = $scope.newModules;
                         if (isValid) {
                             $sails.post(RESOURCES.CONFIG.API_COURSE_CREATE, JSON.parse(angular.toJson($scope.course)))
                                 .success(function(response) {
-                                    console.log(response);
-                                    $scope.course = {
-                                        title: "",
-                                        subtitle: "",
-                                        description: "",
-                                        image: undefined,
-                                        modules: []
-                                    }
 
                                     if (!$scope.course.id) {
                                         $scope.success = $sce.trustAsHtml(RESOURCES.MESSAGES.SUCCESS_CREATE_COURSE);
                                     } else {
                                         $scope.success = $sce.trustAsHtml(RESOURCES.MESSAGES.SUCCESS_UPDATE_COURSE);
                                     }
-                                    angular.element("input[name='uploadImage']").val(null);
+
+                                    /*$scope.course = {
+                                        title: "",
+                                        subtitle: "",
+                                        description: "",
+                                        image: undefined,
+                                        modules: []
+                                    }
+                                    angular.element("input[name='uploadImage']").val(null);*/
                                 })
                                 .error(function(err) {
                                     console.log(err);
