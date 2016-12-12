@@ -31,7 +31,7 @@ superpacesApp.config(['$locationProvider', '$routeProvider',
         }).
         when('/dashboard/course/:id', {
             templateUrl: '/js/templates/pages/tutor-dashboard/course.html',
-            controller: 'superpacesTutorEditCourse'
+            controller: 'superpacesTutorCreateCourse'
         }).
         when('/dashboard/', {
             templateUrl: '/js/templates/pages/tutor-dashboard/courses.html',

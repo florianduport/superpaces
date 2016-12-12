@@ -26,164 +26,12 @@ CourseCtrl.controller('superpacesTutorCourses', function($scope, $sails, $locati
         });
 });
 
-
-/*
- *
- * Course Edit Controller
- */
-CourseCtrl.controller('superpacesTutorEditCourse', function($scope, $routeParams, $sails, $location, $sce, RESOURCES) {
-    $scope.logoutUrl = $sce.trustAsResourceUrl(RESOURCES.CONFIG.BASEAPIURL + RESOURCES.CONFIG.API_AUTH_LOGOUT);
-
-    $sails.get(RESOURCES.CONFIG.API_AUTH_GETUSER)
-        .success(function(data, status, headers, jwr) {
-            $scope.user = data;
-            if ($scope.user !== undefined && $scope.user.id !== undefined) {
-
-                $sails.get(RESOURCES.CONFIG.API_COURSE_EDIT + $routeParams.id)
-                    .success(function(data, status, headers, jwr) {
-                        //console.log(data);
-
-                        $scope.course = data;
-                        $scope.course.tutor = $scope.user.id;
-                        if (!$scope.course.category) {
-                            $scope.course.category = "UE1";
-                        }
-
-                        $scope.testQcm = $scope.course.modules[0].questions[0];
-                        //$scope.title = $scope.course.title;
-
-                        $scope.newModule = {
-                            title: "",
-                            comment: "",
-                            questions: []
-                        }
-                        $scope.newQcm = {
-                            subject: "",
-                            comment: "",
-                            answers: [{
-                                subject: "",
-                                isCorrect: false,
-                                comment: ""
-                            }]
-                        }
-
-                        $scope.addModule = function() {
-                            if (!$scope.course.modules) {
-                                $scope.course.modules = [];
-                            }
-                            $scope.course.modules.push($scope.newModule);
-                            $scope.newModule = {
-                                title: "",
-                                comment: "",
-                                questions: []
-                            };
-                        };
-
-                        $scope.addQuestion = function() {
-
-                            if (!$scope.course.modules[$scope.course.modules.length - 1].questions) {
-                                $scope.course.modules[$scope.course.modules.length - 1].questions = [];
-                            }
-                            $scope.course.modules[$scope.course.modules.length - 1].questions.push($scope.newQcm);
-
-                            console.log($scope.course.modules[$scope.course.modules.length - 1].questions);
-                            $scope.newQcm = {
-                                subject: "",
-                                comment: "",
-                                answers: [{
-                                    subject: "",
-                                    isCorrect: false,
-                                    comment: ""
-                                }]
-                            }
-                        };
-
-                        $scope.addAnswer = function() {
-                            console.log('ok')
-                            if (!$scope.newQcm.answers) {
-                                $scope.newQcm.answers = [];
-                            }
-                            $scope.newQcm.answers.push({
-                                subject: "",
-                                isCorrect: false,
-                                comment: ""
-                            });
-                        };
-
-                        $scope.removeLastAnswer = function() {
-                            if ($scope.newQcm.answers !== undefined && $scope.newQcm.answers.length > 0) {
-                                $scope.newQcm.answers = $scope.newQcm.answers.slice(0, -1);
-                            }
-                        }
-
-                        $scope.removeQcm = function(question) {
-                            for (var i = 0; i < $scope.course.modules.length; i++) {
-                                if ($scope.course.modules[i].questions.indexOf(question) > -1)
-                                    $scope.course.modules[i].questions.splice($scope.course.modules[i].questions.indexOf(question), 1);
-                            }
-                        }
-
-                        $scope.moveQcm = function(question, isUp) {
-                            for (var i = 0; i < $scope.course.modules.length; i++) {
-                                if ($scope.course.modules[i].questions.indexOf(question) > -1) {
-                                    var questionIndex = $scope.course.modules[i].questions.indexOf(question);
-                                    var newIndex = isUp ? (questionIndex - 1 > 0 ? questionIndex - 1 : 0) : (questionIndex + 1 > $scope.course.modules[i].questions.length - 1 ? $scope.course.modules[i].questions.length - 1 : questionIndex + 1)
-                                    var movedElement1 = $scope.course.modules[i].questions[questionIndex];
-                                    var movedElement2 = $scope.course.modules[i].questions[newIndex];
-
-                                    $scope.course.modules[i].questions[questionIndex] = movedElement2;
-                                    $scope.course.modules[i].questions[newIndex] = movedElement1;
-                                }
-
-                            }
-                        }
-
-                        $scope.removeModule = function(moduleToDelete) {
-                            if ($scope.course.modules.indexOf(moduleToDelete) > -1) {
-                                $scope.course.modules.splice($scope.course.modules.indexOf(moduleToDelete), 1);
-                            }
-                        }
-                        var xTriggered = 0;
-                        var watch = $scope.$watch($scope.newQcm, function() {
-                            console.log('watch')
-                                /*if($scope.newQcm.answers[$scope.newQcm.answers.length -1].subject.length > 3){
-                                  $scope.addAnswer();
-                                } else {
-                                  watch();
-                                }*/
-
-                            jQuery("body").delegate(".answersubject", "keydown", function(event) {
-                                var currentElement = jQuery(this);
-                                console.log(currentElement)
-                                console.log($($(".answersubject")[$(".answersubject").length - 1]))
-                                console.log($($(".answersubject")[$(".answersubject").length - 1])[0] == currentElement[0])
-                                if ($($(".answersubject")[$(".answersubject").length - 1])[0] == currentElement[0]) {
-                                    if (currentElement.val().length > 3) {
-                                        $scope.addAnswer();
-                                    } else if (currentElement.val().length == -1) {
-                                        $scope.removeLastAnswer();
-                                    }
-                                }
-
-                            });
-
-                        }, true);
-
-                    });
-
-            } else {
-                $location.path('/');
-            }
-        });
-});
-
-
 /*
  *
  * Course Create Controller
  */
 CourseCtrl.controller('superpacesTutorCreateCourse',
-    function($scope, $sails, $document, $location, $sce, $window, $http, $timeout, $uibModal, RESOURCES) {
+    function($scope, $sails, $document, $location, $sce, $window, $http, $timeout, $uibModal, $routeParams, RESOURCES) {
 
         $createCourseCtrl = this;
 
@@ -240,6 +88,9 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
 
         $sails.get(RESOURCES.CONFIG.API_AUTH_GETUSER)
             .success(function(data, status, headers, jwr) {
+
+
+
                 $scope.CurrentUser = data;
                 if ($scope.CurrentUser !== undefined && $scope.CurrentUser.id !== undefined) {
 
@@ -287,13 +138,28 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
 
 
 
-
-
                     $scope.newModules = [];
 
                     $scope.showAddQuestion = true;
 
                     $scope.moduleIndex = $scope.newModules.length + 1;
+
+
+
+                    //EDIT
+                    if ($routeParams.id) {
+                        $sails.get(RESOURCES.CONFIG.API_COURSE_EDIT + $routeParams.id)
+                            .success(function(courseToEdit, status, headers, jwr) {
+                                //console.log(data);
+
+                                $scope.course = courseToEdit;
+                                $scope.course.tutor = $scope.CurrentUser.id;
+                                $scope.newModules = courseToEdit.modules;
+                                if (!$scope.course.category) {
+                                    $scope.course.category = "UE1";
+                                }
+                            });
+                    }
 
                     $scope.initAnswers = function() {
                         var newAnswers = [];
@@ -461,6 +327,8 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
 
                     //Saves the course in the database
                     $scope.addCourse = function(isValid) {
+                        console.log($scope.newModules);
+                        $scope.course.modules = $scope.newModules;
                         if (isValid) {
                             $sails.post(RESOURCES.CONFIG.API_COURSE_CREATE, JSON.parse(angular.toJson($scope.course)))
                                 .success(function(response) {
@@ -472,7 +340,12 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
                                         image: undefined,
                                         modules: []
                                     }
-                                    $scope.success = $sce.trustAsHtml(RESOURCES.MESSAGES.SUCESS_CREATE_COURSE);
+
+                                    if (!$scope.course.id) {
+                                        $scope.success = $sce.trustAsHtml(RESOURCES.MESSAGES.SUCCESS_CREATE_COURSE);
+                                    } else {
+                                        $scope.success = $sce.trustAsHtml(RESOURCES.MESSAGES.SUCCESS_UPDATE_COURSE);
+                                    }
                                     angular.element("input[name='uploadImage']").val(null);
                                 })
                                 .error(function(err) {

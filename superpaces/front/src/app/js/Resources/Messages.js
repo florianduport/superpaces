@@ -2,7 +2,8 @@ var Messages = angular.module('Resources',[]);
 
 Messages.constant("RESOURCES",{
 	"MESSAGES" : {
-		"SUCESS_CREATE_COURSE" : "<b>Félicitations !</b> Vous avez créé une nouvelle Colle.",
+		"SUCCESS_CREATE_COURSE" : "<b>Félicitations !</b> Vous avez créé une nouvelle Colle.",
+		"SUCCESS_UPDATE_COURSE" : "<b>Félicitations !</b> Vous avez modifié votre Colle. <a href='/#!/dashboard'>Voir mes Colles</a>",
 		"UPLOAD_ERROR" : "<b>Fichier non comforme !</b><br/>Verifiez que : <br/><ul><li>La taille du fichier : < 500 Ko</li><li>Format : JPG, PNG</li></ul>",
 		"ERROR_2" : "My error 2"
 	},
