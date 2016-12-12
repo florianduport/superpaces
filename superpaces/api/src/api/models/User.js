@@ -14,7 +14,6 @@ module.exports = {
     email: 'STRING',
     firstname: 'STRING',
     lastname: 'STRING',
-    courses : { collection : 'course' , via : 'tutor'},
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;

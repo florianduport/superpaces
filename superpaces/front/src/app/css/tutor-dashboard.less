@@ -1,132 +1,180 @@
-body{
-  font-family: 'Open Sans' !important;
-  letter-spacing: 1px !important;
-  overflow-x: hidden;
-  background: #f7f7f7;
+body {
+    font-family: 'Open Sans' !important;
+    letter-spacing: 1px !important;
+    overflow-x: hidden;
+    background: #f7f7f7;
 }
-.typed-cursor{
+
+.typed-cursor {
     opacity: 1;
     -webkit-animation: blink 0.7s infinite;
     -moz-animation: blink 0.7s infinite;
     animation: blink 0.7s infinite;
 }
-@keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
-}
-@-webkit-keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
-}
-@-moz-keyframes blink{
-    0% { opacity:1; }
-    50% { opacity:0; }
-    100% { opacity:1; }
-}
-#headzone{
-  min-height: 800px;
-  width: 100%;
-}
-.navbar-inner {
-    background:transparent;
-}
-.navbar-brand {
-  height: 75px;
-}
-.navbar{
-  background-color: #2d2e30;
-}
-.navbar-brand img{
-  height: 100%;
-}
-#navbar{
-  padding-top: 20px;
-}
-.navbarConnected{
-  padding-top: 30px;
-}
-#navbar a,
-.navbarConnected a{
-  color: #ffffff;
-  padding: 20px;
-  margin-top: 20px;
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-.btn-success{
-  background-color: #35c350;
-  background-image: linear-gradient(to bottom,#35c350 0,#35c350 100%);
-  font-weight: bold;
+@-webkit-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
-.btn-success:hover{
-  background-color: #3bcc53;
-  background-image: linear-gradient(to bottom,#35c350 0,#3bcc53 100%);
+
+@-moz-keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
-#headzoneTitle{
-  margin-top: 0px;
-  padding-top: 200px;
-  color: #ffffff;
+
+#headzone {
+    min-height: 800px;
+    width: 100%;
 }
-#headzoneTitle h1{
-  font-weight: bold;
-  font-size: 35pt;
+
+.navbar-inner {
+    background: transparent;
 }
+
+.navbar-brand {
+    height: 75px;
+}
+
+.navbar {
+    background-color: #2d2e30;
+}
+
+.navbar-brand img {
+    height: 100%;
+}
+
+#navbar {
+    padding-top: 20px;
+}
+
+.navbarConnected {
+    padding-top: 30px;
+}
+
+#navbar a,
+.navbarConnected a {
+    color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.btn-success {
+    background-color: #35c350;
+    background-image: linear-gradient(to bottom, #35c350 0, #35c350 100%);
+    font-weight: bold;
+}
+
+.btn-success:hover {
+    background-color: #3bcc53;
+    background-image: linear-gradient(to bottom, #35c350 0, #3bcc53 100%);
+}
+
+#headzoneTitle {
+    margin-top: 0px;
+    padding-top: 200px;
+    color: #ffffff;
+}
+
+#headzoneTitle h1 {
+    font-weight: bold;
+    font-size: 35pt;
+}
+
 #headzoneSubtitle {
-  color: #ffffff;
-  margin-top: 50px;
+    color: #ffffff;
+    margin-top: 50px;
 }
-#coursesContainer{
-  margin-top: 76px;
+
+#coursesContainer {
+    margin-top: 76px;
 }
-.courseWhiteZone{
-  background: white;
-  border: 1px solid #EEE;
-  padding: 20px;
+
+.courseWhiteZone {
+    background: white;
+    border: 1px solid #EEE;
+    padding: 20px;
 }
-.input-group-addon{
-  padding-right: 30px!important;
+
+.input-group-addon {
+    padding-right: 30px!important;
 }
-.qcmList{
-  margin-top: 50px;
+
+.qcmList {
+    margin-top: 50px;
 }
-.answerCourseCorrect{
-  margin-left: -20px!important;
-  position: absolute!important;
-  margin-top: 0px!important;
-  width: 20px!important;
-  top: 0!important;
-  left: 33px!important;
+
+.answerCourseCorrect {
+    margin-left: -20px!important;
+    position: absolute!important;
+    margin-top: 0px!important;
+    width: 20px!important;
+    top: 0!important;
+    left: 33px!important;
 }
-.answerCourseComment{
-  //margin-left: 35px;
+
+.answerCourseComment {
+    //margin-left: 35px;
 }
-.qcmDoneZone{
-  background: #EEE;
-  border-radius: 10px;
-  padding: 20px;
+
+.qcmDoneZone {
+    background: #EEE;
+    border-radius: 10px;
+    padding: 10px;
 }
-.qcmDoneZone span{
-  font-weight: bold;
+
+.qcmDoneZone span {
+    font-weight: bold;
 }
-.qcmDoneZoneCorrectAnswer{
-  color: #35c350;
+
+.qcmDoneZoneCorrectAnswer {
+    color: #35c350;
 }
-.qcmDoneZoneComment{
-  font-style: italic;
-  font-weight: normal;
+
+.qcmDoneZoneComment {
+    font-style: italic;
+    font-weight: normal;
 }
+
 input[type="checkbox"].greenCheckbox + label {
     color: #35c350;
 }
+
 .addmodule,
 .addQuestion,
-.saveCourse{
-  width: 100%;
+.saveCourse {
+    width: 100%;
 }
-.input-group-addon{
-  background: #35c350;
+
+.input-group-addon {
+    background: #35c350;
 }
-#coursesContainer h1{
-  padding: 15px;
+
+#coursesContainer h1 {
+    padding: 15px;
 }

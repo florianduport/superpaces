@@ -12,7 +12,7 @@ module.exports = {
 	getById: function(req, res) {
 		Course.find({
 			id: req.param('id')
-		}).populate('modules').exec(function(err, course) {
+		}).exec(function(err, course) {
 			if (err)
 				return res.serverError(err);
 
@@ -23,6 +23,7 @@ module.exports = {
 	create: function(req, res) {
 		var modules = req.param('modules');
 		var isValidCourse = false;
+
 
 		//check that there is at least one Module
 		if (modules != undefined && modules.length > 0) {

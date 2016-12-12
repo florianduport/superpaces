@@ -32,7 +32,7 @@
   <a href="/#!/dashboard/create-course"><input type="button" class="btn btn-success" value="Créer une colle"/></a>
   <div ng-repeat="course in courses" class="col-md-4">
     <a href="/#!/dashboard/course/{{course.id}}">
-      <img src="" class="courseThumbnail"/>
+      <img src="{{course.image}}" class="courseThumbnail"/>
       <h3>{{course.title}}</h3>
       <p>{{course.subtitle}}</p>
     </a>

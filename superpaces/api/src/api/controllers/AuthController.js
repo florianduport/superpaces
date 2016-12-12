@@ -8,11 +8,15 @@
 var passport = require('passport');
 var sha1 = require('sha1');
 
+
+
 var baseUrl = sails.config.globals.baseUrl;
 
 module.exports = {
 
   index: function(req, res) {
+
+
     res.view();
   },
 
@@ -24,7 +28,7 @@ module.exports = {
   getUser: function(req, res){
 
     if(req.session.passport !== undefined){
-      User.findOne({id : req.session.passport.user}).populate('courses').exec(function(err, user){
+      User.findOne({id : req.session.passport.user}).exec(function(err, user){
 
         if(err){
           res.send(false);
