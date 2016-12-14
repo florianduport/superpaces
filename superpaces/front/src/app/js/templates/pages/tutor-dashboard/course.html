@@ -1,14 +1,29 @@
-<!-- MODAL -->
-<script type="text/ng-template" id="modal.html">
+<!-- YES NO MODAL -->
+<script type="text/ng-template" id="YesNoModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{$YesNoCtrl.title}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <p>{{$YesNoCtrl.message}}</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$YesNoCtrl.yes()">Oui</button>
+        <button class="btn btn-warning" type="button" ng-click="$YesNoCtrl.no()">Non</button>
+    </div>
+</script>
+
+
+<!-- EDIT QUESTION MODAL -->
+<script type="text/ng-template" id="EditQuestionModal.html">
     <div class="modal-header">
         <h3 class="modal-title" id="modal-title">Modifier la question</h3>
     </div>
     <div class="modal-body" id="modal-body">
         <h4>Question :</h4>
-        <input type="text" required ng-model="$ctrl.currentQuestion.subject" name="questionsubject" class="form-control" />
-        <input type="text" required ng-model="$ctrl.currentQuestion.comment" name="questionsubject" class="form-control" />
+        <input type="text" required ng-model="$EditQuestionCtrl.currentQuestion.subject" name="questionsubject" class="form-control" />
+        <input type="text" required ng-model="$EditQuestionCtrl.currentQuestion.comment" name="questionsubject" class="form-control" />
         <h4>Réponses :</h4>
-        <div ng-repeat="answerToEdit in $ctrl.currentQuestion.answers">
+        <div ng-repeat="answerToEdit in $EditQuestionCtrl.currentQuestion.answers">
             <!-- ANSWERS MODAL -->
             <div class="input-group col-md-11 col-md-offset-1">
                 <div class="input-group-addon">
@@ -25,10 +40,60 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="$ctrl.save()">Enregistrer</button>
-        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+        <button class="btn btn-primary" type="button" ng-click="$EditQuestionCtrl.save()">Enregistrer</button>
+        <button class="btn btn-warning" type="button" ng-click="$EditQuestionCtrl.cancel()">Annuler</button>
     </div>
 </script>
+
+<!-- MODULE OVERVIEW MODAL -->
+<script type="text/ng-template" id="ModuleOverviewModal.html">
+<div class="modal-header">
+<h3 class="modal-title" id="modal-title">Voici à quoi va ressembler ton Module :</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+
+<div class="qcmDoneZone">
+                    
+                        <div class="col-md-9">
+                            <h4 class="text-center">{{$ModuleOverviewCtrl.module.title}}</h4>
+                            <p class="text-center qcmDoneZoneComment">{{$ModuleOverviewCtrl.module.comment}}</p>
+                        </div>
+                        
+                        <br/>
+                        <br/>
+                       
+                        <div ng-repeat="question in $ModuleOverviewCtrl.module.questions">
+                            <br/>
+                            <br/>
+                            <div class="col-md-9">
+                                <p><strong>{{question.subject}}</strong></p>
+                            </div>
+                          
+                            <br/>
+                            <br/>
+                            <ul>
+                                <li ng-repeat="answer in question.answers">
+                                    <span ng-if="answer.isCorrect" class="qcmDoneZoneCorrectAnswer">
+                  {{answer.subject}} <span class="fa fa-check"></span>
+                                    </span>
+                                    <span ng-if="!answer.isCorrect" class="">
+                  {{answer.subject}}
+                </span>
+                                </li>
+                            </ul>
+                        </div>
+                    
+                    
+                </div>
+</div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ModuleOverviewCtrl.save()">OK ! Je garde ce module</button>
+        <button class="btn btn-warning" type="button" ng-click="$ModuleOverviewCtrl.cancel()">Je continue à editer mon Module</button>
+    </div>
+</script>
+
 <link rel="stylesheet" type="text/css" href="/css/tutor-dashboard.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
@@ -60,6 +125,7 @@
     </div>
 </nav>
 <!-- COURSE CONTAINER -->
+
 <div id="coursesContainer" class="col-md-8 col-md-offset-2">
     <h1 ng-if="course.id" class="text-center">Editer une colle</h1>
     <h1 ng-if="!course.id">Ajouter une colle</h1>
@@ -156,10 +222,11 @@
                         Le Commentaire du Module est obligatoire
                     </p>
                 </div>
+                
                 <h2>Questions du Module # {{newModules.length + 1}}</h2>
                 <div ng-repeat="question in newModule.questions">
                     <h4>Question {{$index+1}} :</h4>
-                    <a ng-click="openModal($index)"><span class="glyphicon glyphicon-edit" ></span></a>
+                    <a ng-click="openEditQuestionModal($index)"><span class="glyphicon glyphicon-edit" ></span></a>
                     <strong>{{question.subject}}</strong>
                     <br/><i>{{question.comment}}</i>
                     <ul>
@@ -218,7 +285,7 @@
                 <!-- BOUTON FINALISER LE MODULE -->
                 <br/>
                 <br/>
-                <input type="button" class="addQuestion btn btn-success" ng-click="addEmptyModule();scrollToOverview();" value="Visualiser mon Module >" />
+                <input type="button" class="addQuestion btn btn-success" ng-click="openModuleOverviewModal()" value="Aperçu de mon nouveau Module" />
                 <br/>
                 <div id="overview"></div>
                 <br/>
@@ -230,7 +297,8 @@
                             <p class="text-center qcmDoneZoneComment">{{module.comment}}</p>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-warning" ng-click="removeModule(module)"><span class="fa fa-trash-o"></span></button>
+                            <button class="btn btn-warning" 
+                            ng-click="openYesNoModal(0,removeModule,module)"><span class="fa fa-trash-o"></span></button>
                         </div>
                         <br/>
                         <br/>
@@ -240,12 +308,13 @@
                             <br/>
                             <br/>
                             <div class="col-md-9">
-                                <p><strong>{{question.subject}}</strong></p>
+                                <p><strong>{{question.subject}}</strong><br/>
+                                <i>{{question.comment}}</i></p>
                             </div>
                             <div class="col-md-3">
                                 <span ng-click="moveQcm(question, true)" class="glyphicon glyphicon-arrow-up"></span>
                                 <span ng-click="moveQcm(question, false)" class="glyphicon glyphicon-arrow-down"></span>
-                                <span ng-click="removeQcm(question)" class="glyphicon glyphicon-trash"></span>
+                                <span ng-click="openYesNoModal(0,removeQcm,question)" class="glyphicon glyphicon-trash"></span>
                             </div>
                             <br/>
                             <br/>

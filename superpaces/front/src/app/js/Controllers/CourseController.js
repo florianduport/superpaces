@@ -33,42 +33,89 @@ CourseCtrl.controller('superpacesTutorCourses', function($scope, $sails, $locati
 CourseCtrl.controller('superpacesTutorCreateCourse',
     function($scope, $sails, $document, $location, $sce, $window, $http, $timeout, $uibModal, $routeParams, RESOURCES) {
 
-        $createCourseCtrl = this;
-
-        $scope.openModal = function(questionId) {
+        var openModal = function(templateUrl, size, controller, controllerAs, dataInput) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                templateUrl: 'modal.html',
-                size: 'lg',
-                controller: 'ModalInstanceCtrl',
-                controllerAs: '$ctrl',
+                templateUrl: templateUrl,
+                size: size,
+                controller: controller,
+                controllerAs: controllerAs,
                 resolve: {
-                    items: function() {
-                        var item = {
-                            id: questionId,
-                            questionToEdit: angular.copy($scope.newModule.questions[questionId])
-                        };
-
-                        return item;
+                    data: function() {
+                        return dataInput;
                     }
                 }
             });
 
+            modalInstance.result.then(
+                function(selectedItem) {
+                    //if we come from ModuleOverviewModal
+                    if (selectedItem.module) {
+                        $scope.addEmptyModule();
+                        $scope.scrollToOverview();
+                    }
 
+                    //if we come from EditQuestionModel
+                    if (selectedItem.questionEdited) {
+                        angular.forEach(selectedItem.questionEdited.answers, function(answer, key) {
+                            if (!answer.subject)
+                                selectedItem.questionEdited.answers.splice(selectedItem.questionEdited.answers.indexOf(answer), 1);
+                        });
+                        $scope.newModule.questions[selectedItem.id] = selectedItem.questionEdited;
+                    }
 
-            modalInstance.result.then(function(selectedItem) {
-                angular.forEach(selectedItem.questionEdited.answers, function(answer, key) {
-                    if (!answer.subject)
-                        selectedItem.questionEdited.answers.splice(selectedItem.questionEdited.answers.indexOf(answer), 1);
+                    //if we come from yesno modal
+                    if (selectedItem.callback)
+                        selectedItem.callback(selectedItem.callbackParams);
+                },
+                function() {
+                    console.log('Modal dismissed at: ' + new Date());
                 });
-                $scope.newModule.questions[selectedItem.id] = selectedItem.questionEdited;
+        };
 
-            }, function() {
-                console.log('Modal dismissed at: ' + new Date());
-            });
+
+
+        $scope.openEditQuestionModal = function(questionId) {
+            openModal(
+                'EditQuestionModal.html',
+                'lg',
+                'EditQuestionModalInstanceCtrl',
+                '$EditQuestionCtrl', {
+                    questionToEdit: angular.copy($scope.newModule.questions[questionId]),
+                    id: questionId
+                });
+        };
+
+        $scope.openModuleOverviewModal = function() {
+            openModal(
+                'ModuleOverviewModal.html',
+                'lg',
+                'ModuleOverviewModalInstanceCtrl',
+                '$ModuleOverviewCtrl', {
+                    module: angular.copy($scope.newModule)
+                });
+        };
+
+        $scope.openYesNoModal = function(messageId, callback, params) {
+            openModal(
+                'YesNoModal.html',
+                'md',
+                'YesNoModalInstanceCtrl',
+                '$YesNoCtrl', {
+                    title: angular.copy(RESOURCES.MESSAGES.MODAL[messageId].TITLE),
+                    message: angular.copy(RESOURCES.MESSAGES.MODAL[messageId].MESSAGE),
+                    callback: callback,
+                    callbackParams: params
+                });
         }
+
+        var deleteStuff = function(id) {
+            console.log('Stuff deleted :' + id);
+        }
+
+
 
         var scrollToOverview = function() {
             var overview = angular.element(document.getElementById('overview'));
@@ -357,11 +404,11 @@ CourseCtrl.controller('superpacesTutorCreateCourse',
     });
 
 
-CourseCtrl.controller('ModalInstanceCtrl',
-    function($scope, $uibModalInstance, items) {
+CourseCtrl.controller('EditQuestionModalInstanceCtrl',
+    function($scope, $uibModalInstance, data) {
         $ctrl = this;
 
-        $ctrl.currentQuestion = angular.copy(items.questionToEdit);
+        $ctrl.currentQuestion = angular.copy(data.questionToEdit);
 
         var diff = 5 - $ctrl.currentQuestion.answers.length;
 
@@ -372,7 +419,7 @@ CourseCtrl.controller('ModalInstanceCtrl',
         }
 
         var returnValue = {
-            id: items.id,
+            id: data.id,
             questionEdited: $ctrl.currentQuestion
         };
 
@@ -384,6 +431,38 @@ CourseCtrl.controller('ModalInstanceCtrl',
             $uibModalInstance.close(returnValue);
 
         };
+    });
 
 
+CourseCtrl.controller('ModuleOverviewModalInstanceCtrl',
+    function($scope, $uibModalInstance, data) {
+        $ctrl = this;
+        $ctrl.module = angular.copy(data.module);
+
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $ctrl.save = function() {
+            $uibModalInstance.close({
+                module: $ctrl.module
+            });
+        }
+    });
+
+
+CourseCtrl.controller('YesNoModalInstanceCtrl',
+    function($scope, $uibModalInstance, data) {
+        $ctrl = this;
+        $ctrl.title = angular.copy(data.title);
+        $ctrl.message = angular.copy(data.message);
+
+        $ctrl.no = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+        $ctrl.yes = function() {
+            $uibModalInstance.close({
+                callback: data.callback,
+                callbackParams: data.callbackParams
+            });
+        }
     });

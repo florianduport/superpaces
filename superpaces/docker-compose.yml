@@ -1,27 +1,12 @@
 version: '2'
 services:
-  front:
-    build: ./front
-    ports:
-      - "80:80"
-    volumes:
-      - "./front/src/:/data/src/"
-      - "./front/conf:/etc/nginx/sites-available"
-      - "./front/scripts:/data/scripts"
-    command: bash -c "/data/scripts/start.sh"
-    networks:
-        tars_net:
-          ipv4_address: 177.10.0.10
-          ipv6_address: 2001:3984:3989::10
-
-
   db:
     build: ./db
     ports:
-      - "27017:27017"
+     - "27017:27017"
     volumes:
-      - "./db/data:/data/db"
-      - "./db/scripts/create_user.js:/create_user.js"
+     - "./db/data:/data/db"
+     - "./db/scripts/create_user.js:/create_user.js"
     command: >
              sh -c '
              sh -c "mongod &"
@@ -31,9 +16,26 @@ services:
              && mongod --auth
              '
     networks:
+      tars_net:
+        ipv4_address: 177.10.0.12
+        ipv6_address: 2001:3984:3979::10
+
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    volumes:
+      - "./front/src/:/data/src/"
+      - "./front/conf:/etc/nginx/sites-available"
+      - "./front/scripts:/data/scripts"
+    depends_on :
+      - api
+    command: bash -c "/data/scripts/start.sh"
+    networks:
         tars_net:
-          ipv4_address: 177.10.0.12
-          ipv6_address: 2001:3984:3979::10
+          ipv4_address: 177.10.0.10
+          ipv6_address: 2001:3984:3989::10
+
 
   api:
     build: ./api
@@ -42,9 +44,14 @@ services:
     volumes:
       - "./api/src:/data/src"
       - "./api/scripts:/data/scripts"
-    command: bash -c "/data/scripts/start.sh"
+    command: >
+            sh -c 'echo "AM GOING TO SLEEP"
+            && sleep 2
+            && bash -c "/data/scripts/start.sh"';
     environment: 
       NODE_ENV: development
+    depends_on :
+      - db
     networks:
         tars_net:
           ipv4_address: 177.10.0.11

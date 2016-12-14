@@ -5,7 +5,14 @@ Messages.constant("RESOURCES",{
 		"SUCCESS_CREATE_COURSE" : "<b>Félicitations !</b> Vous avez créé une nouvelle Colle.",
 		"SUCCESS_UPDATE_COURSE" : "<b>Félicitations !</b> Vous avez modifié votre Colle. <a href='/#!/dashboard'>Voir mes Colles</a>",
 		"UPLOAD_ERROR" : "<b>Fichier non comforme !</b><br/>Verifiez que : <br/><ul><li>La taille du fichier : < 500 Ko</li><li>Format : JPG, PNG</li></ul>",
-		"ERROR_2" : "My error 2"
+		"ERROR_2" : "My error 2",
+		"MODAL" : [
+			{
+				"ID" : "0",
+				"TITLE" : "Confirmez la suppression",
+				"MESSAGE" : "Voulez-vous vraiment supprimer cet élément ?"
+			}
+		]
 	},
 	"CONFIG" : {
 		//Base URLs DEV
