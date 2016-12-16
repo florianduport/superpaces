@@ -22,35 +22,39 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-   *                                                                          *
-   * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-   * etc. depending on your default view engine) your home page.              *
-   *                                                                          *
-   * (Alternatively, remove this and add an `index.html` file in your         *
-   * `assets` directory)                                                      *
-   *                                                                          *
-   ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
+     * etc. depending on your default view engine) your home page.              *
+     *                                                                          *
+     * (Alternatively, remove this and add an `index.html` file in your         *
+     * `assets` directory)                                                      *
+     *                                                                          *
+     ***************************************************************************/
 
-  '/': {
-    view: 'homepage'
-  },
+    '/': {
+        view: 'homepage'
+    },
 
-  'POST /course/upload': {
-    controller: 'CourseController',
-    action: 'upload',
-    origin : 'http://177.10.0.10/',
-    cors: true
-  }
+    'POST /course/upload': {
+        controller: 'CourseController',
+        action: 'upload',
+        origin: 'http://177.10.0.10/',
+        cors: true
+    },
 
-  /***************************************************************************
-   *                                                                          *
-   * Custom routes here...                                                    *
-   *                                                                          *
-   * If a request to a URL doesn't match any of the custom routes above, it   *
-   * is matched against Sails route blueprints. See `config/blueprints.js`    *
-   * for configuration options and examples.                                  *
-   *                                                                          *
-   ***************************************************************************/
+    'POST /auth/local': 'AuthController.local',
+    'GET /auth/getUser': 'AuthController.getUser',
+    'GET /auth/logout': 'AuthController.logout'
+
+    /***************************************************************************
+     *                                                                          *
+     * Custom routes here...                                                    *
+     *                                                                          *
+     * If a request to a URL doesn't match any of the custom routes above, it   *
+     * is matched against Sails route blueprints. See `config/blueprints.js`    *
+     * for configuration options and examples.                                  *
+     *                                                                          *
+     ***************************************************************************/
 
 };

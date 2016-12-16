@@ -1,3 +1,4 @@
+io.sails.url = "http://177.10.0.11:1337";
 var superpacesApp = angular.module('superpacesApp',
 
     ['ngResource', 'ngSails', 'ngRoute',
@@ -5,6 +6,7 @@ var superpacesApp = angular.module('superpacesApp',
     ]);
 
 superpacesApp.config(['$sailsProvider', 'RESOURCES', function($sailsProvider, RESOURCES) {
+    io.sails.url = "http://177.10.0.11:1337";
     $sailsProvider.url = RESOURCES.CONFIG.BASEAPIURL;
 }]);
 

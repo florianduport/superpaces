@@ -7,18 +7,19 @@
 
 module.exports = {
 
-  attributes: {
-    provider: 'STRING',
-    uid: 'STRING',
-    name: 'STRING',
-    email: 'STRING',
-    firstname: 'STRING',
-    lastname: 'STRING',
-    toJSON: function() {
-      var obj = this.toObject();
-      delete obj.password;
-      return obj;
+    attributes: {
+        provider: 'STRING',
+        uid: 'STRING',
+        name: 'STRING',
+        email: 'STRING',
+        firstname: 'STRING',
+        lastname: 'STRING',
+        password: 'STRING',
+        toJSON: function() {
+            var obj = this.toObject();
+            delete obj.password;
+            return obj;
+        }
     }
-  }
 
 };

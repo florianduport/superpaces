@@ -10,19 +10,13 @@ CourseCtrl.controller('superpacesTutorCourses', function($scope, $sails, $locati
     $sails.get(RESOURCES.CONFIG.API_AUTH_GETUSER)
         .success(function(data, status, headers, jwr) {
             $scope.user = data;
-            if ($scope.user !== undefined && $scope.user.id !== undefined) {
-
-                $sails.get(RESOURCES.CONFIG.API_COURSE_BY_TUTOR + $scope.user.id)
-                    .success(function(data, status, headers, jwr) {
-                        //console.log(data);
-
-                        $scope.courses = data;
-
-                    });
-
-            } else {
-                $location.path('/');
-            }
+            $sails.get(RESOURCES.CONFIG.API_COURSE_BY_TUTOR + $scope.user.id)
+                .success(function(data, status, headers, jwr) {
+                    $scope.courses = data;
+                })
+                .error(function(err) {
+                    $location.path('/');
+                });
         });
 });
 
